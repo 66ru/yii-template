@@ -1,7 +1,8 @@
 <?php
 
-// This is the configuration for yiic console application.
-// Any writable CConsoleApplication properties can be configured here.
+Yii::setPathOfAlias('lib', realpath(dirname(__FILE__).'/../../lib'));
+
+$params = require('params.php');
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
 	'name'=>'My Console Application',
@@ -34,4 +35,6 @@ return array(
 			),
 		),
 	),
+
+	'params'=> $params,
 );
