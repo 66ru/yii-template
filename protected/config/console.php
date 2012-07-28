@@ -5,10 +5,16 @@ Yii::setPathOfAlias('lib', realpath(dirname(__FILE__).'/../../lib'));
 $params = require('params.php');
 return array(
 	'basePath'=>dirname(__FILE__).DIRECTORY_SEPARATOR.'..',
-	'name'=>'My Console Application',
+	'name'=> $params['appName'],
 
-	// preloading 'log' component
 	'preload'=>array('log'),
+
+	'import'=>array(
+		'application.models.*',
+		'application.models.forms.*',
+		'application.components.*',
+		'application.helpers.*',
+	),
 
 	// application components
 	'components'=>array(
@@ -19,16 +25,22 @@ return array(
 			'password' => $params['dbPassword'],
 			'charset' => 'utf8',
 		),
+		'authManager'=>array(
+			'class'=>'CDbAuthManager',
+			'connectionID'=>'db',
+		),
 		'log'=>array(
 			'class'=>'CLogRouter',
-			'routes'=>array(
+			/*'routes'=>array(
 				array(
 					'class'=>'CFileLogRoute',
 					'levels'=>'error, warning',
 				),
-			),
+			),*/
 		),
 	),
 
-	'params'=> $params,
+	'params'=> array_merge($params, array(
+		'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
+	)),
 );

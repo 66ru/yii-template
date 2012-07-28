@@ -1,0 +1,18 @@
+{% extends 'views/layouts/main.twig' %}
+
+{% block content %}
+<h1>
+{% if code == 404 %}
+	{{ code }} - Страница не найдена
+{% elseif code == 403 %}
+	{{ code }} - Доступ запрещен
+{% elseif code == 500 %}
+	{{ code }} - Ошибка на сервере
+{% else %}
+	Ошибка {{code}}
+{% endif %}
+</h1>
+
+<p>{{message}}</p>
+{% endblock %}
+

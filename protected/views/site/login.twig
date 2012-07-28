@@ -1,0 +1,41 @@
+{% extends 'views/layouts/main.twig' %}
+
+{% block content %}
+<h1>Войти</h1>
+
+<div class="form">
+
+	{% set form = this.beginWidget('CActiveForm', {
+		'enableClientValidation': true,
+		'clientOptions': {'validateOnSubmit': true},
+	}) %}
+
+	<p class="note">Поля с символом <span class="required">*</span> обязательны для заполнения.</p>
+
+	<p>
+		{{form.labelEx(model,'email')|raw}}
+		{{form.textField(model,'email')|raw}}
+		{{form.error(model,'email')|raw}}
+	</p>
+
+	<p>
+		{{form.labelEx(model,'password')|raw}}
+		{{form.passwordField(model,'password')|raw}}
+		{{form.error(model,'password')|raw}}
+	</p>
+
+	<p>
+		{{form.checkBox(model,'rememberMe')|raw}}
+		{{form.label(model,'rememberMe')|raw}}
+		{{form.error(model,'rememberMe')|raw}}
+	</p>
+
+	<p>
+		{{C.Html.submitButton('Войти')|raw}}
+	</p>
+
+	{{ void(this.endWidget()) }}
+
+</div><!-- form -->
+
+{% endblock %}

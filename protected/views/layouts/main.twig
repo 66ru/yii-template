@@ -1,0 +1,18 @@
+<!DOCTYPE HTML>
+<html lang="ru">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}{{ this.pageTitle }}{% endblock %}</title>
+</head>
+<body>
+{{ widget('zii.widgets.CMenu', {
+	'items':[
+		{'label':'Главная', 'url':['/site/index']},
+		{'label':'Войти', 'url':['/site/login'], 'visible':App.user.isGuest},
+		{'label':'Админ', 'url':['/admin/admin/index'], 'visible':App.user.checkAccess('adminActions')},
+		{'label':'Выйти ('~App.user.name~')', 'url':['/site/logout'], 'visible':not App.user.isGuest}
+	],
+}) }}
+{% block content %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+{% extends 'views/layouts/admin.twig' %}
+
+{% block content %}
+<h1>Список {{ this.modelHumanTitle[2] }}</h1>
+
+{{ widget('bootstrap.widgets.BootButton', {
+	'buttonType' : 'link',
+	'type' : 'primary',
+	'icon' : 'plus white',
+	'label' : 'Добавить '~this.modelHumanTitle[0],
+	'url' : ['add'],
+}) }}
+
+{{ widget('bootstrap.widgets.BootGridView', {
+	'type' : 'condensed striped',
+	'dataProvider' : model.search(),
+	'filter' : model,
+	'columns' : columns,
+}) }}
+
+{% endblock %}

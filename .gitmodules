@@ -1,3 +1,9 @@
 [submodule "lib/yii"]
 	path = lib/yii
 	url = git://github.com/yiisoft/yii.git
+[submodule "lib/bootstrap"]
+	path = lib/bootstrap
+	url = git://github.com/mediasite/yii-bootstrap.git
+[submodule "lib/twig"]
+	path = lib/twig
+	url = git://github.com/fabpot/Twig.git

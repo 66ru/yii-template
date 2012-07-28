@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="language" content="en" />
+
+	{{ void(App.clientScript.registerCssFile(App.request.baseUrl~'/css/admin.css')) }}
+
+	<title>{% block title %}{{ this.pageTitle }}{% endblock %}</title>
+</head>
+
+<body>
+
+{% block mainMenu %}
+{{ widget('bootstrap.widgets.BootNavbar',{
+	'collapse' : true,
+	'items':[
+	{
+		'class' : 'bootstrap.widgets.BootMenu',
+		'items' : [
+			{'label':'Вернуться на сайт', 'url':['/site/index']},
+			{'label':'Пользователи', 'url':['/admin/adminUsers'], 'active' : this.id == 'admin/adminUsers' },
+		]
+	},{
+		'class' : 'bootstrap.widgets.BootMenu',
+		'htmlOptions' : {'class':'pull-right'},
+		'items' : [
+			{'label':'Выйти ('~App.user.name~')', 'url':['/site/logout'], 'visible':not App.user.isGuest}
+		]
+	}]
+}) }}
+{% endblock %}
+
+<div class="container" id="page">
+	{% block content %}{% endblock %}
+</div><!-- page -->
+
+</body>
+</html>
