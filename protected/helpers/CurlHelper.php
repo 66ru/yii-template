@@ -39,8 +39,10 @@ class CurlHelper
 	static function downloadToFile($url, $toFile, $additionalConfig = array()) {
 		$fp = fopen($toFile, 'w');
 		$ch = curl_init();
+		$timeout = 5;
 		curl_setopt($ch, CURLOPT_URL, $url);
 		curl_setopt($ch, CURLOPT_FILE, $fp);
+		curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
 		curl_setopt_array($ch, $additionalConfig);
 		curl_exec($ch);
 		$http_status = curl_getinfo($ch, CURLINFO_HTTP_CODE);

@@ -29,7 +29,7 @@ class TreeHelper
 
 	private static function internalGetTreeForDropDownBox($tree, $categoriesArray, $canSelectRoots, &$disabledOptionsArray, $nestingLevel = 0){
 		$result = array();
-		foreach ($tree as $id => $child) {
+		foreach ($tree as $id => $childrens) {
 			if ($canSelectRoots)
 				$result[$id] = str_repeat('&nbsp;&nbsp;&nbsp;&nbsp;', $nestingLevel).CHtml::encode($categoriesArray[$id]);
 			else if (!$canSelectRoots && $nestingLevel == 1)
@@ -39,8 +39,8 @@ class TreeHelper
 				$disabledOptionsArray[] = $id;
 			}
 
-			if (is_array($child) && !empty($child)) {
-				$childResult = self::internalGetTreeForDropDownBox($child, $categoriesArray, $canSelectRoots, $disabledOptionsArray, $nestingLevel+1);
+			if (is_array($childrens) && !empty($childrens)) {
+				$childResult = self::internalGetTreeForDropDownBox($childrens, $categoriesArray, $canSelectRoots, $disabledOptionsArray, $nestingLevel+1);
 				if ($canSelectRoots || $nestingLevel > 1)
 					$result = $result + $childResult;
 				else

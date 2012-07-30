@@ -23,25 +23,32 @@ class ImageFileRowWidget extends CWidget
 	/** @var null|string URL to thumbnail image. If empty, used fullsize image */
 	public $thumbnailImageUrl = null;
 
+	/** @var string Hint will appended to file field */
+	public $hint = '';
+
 	public function run()
 	{
 		$model = $this->model;
 		$attributeName = $this->attributeName;
 		$form = $this->form;
 
-		$hint = array();
+		$htmlOptions = array();
+		if (!empty($this->hint)) {
+			$this->hint = "{$this->hint}";
+			$htmlOptions = array('hint' => $this->hint);
+		}
 		if (!empty($model->$attributeName)) {
 			if (empty($this->thumbnailImageUrl))
 				$this->thumbnailImageUrl = $model->$attributeName;
-			$hint = array(
-				'hint' => CHtml::link(
+			$htmlOptions = array(
+				'hint' => $this->hint."<br /><br />".CHtml::link(
 					CHtml::image($this->thumbnailImageUrl, '', array('style'=>"max-width:{$this->maxImageSize}px; max-height:{$this->maxImageSize}px")),
 					$model->$attributeName,
 					array('target' => '_blank')
 				),
 			);
 		}
-		echo $form->fileFieldRow($model, $this->uploadedFileFieldName, $hint);
+		echo $form->fileFieldRow($model, $this->uploadedFileFieldName, $htmlOptions);
 		if (!empty($model->$attributeName)) {
 			echo $form->checkboxRow($model, $this->removeImageFieldName);
 		}

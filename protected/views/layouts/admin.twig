@@ -10,6 +10,30 @@
 </head>
 
 <body>
+<div id="ajaxLoader">&nbsp;</div>
+<script type="text/javascript">
+	$(document).ready(function() {
+		var ajaxInProgress = false;
+
+		$(document).ajaxStart(function() {
+			ajaxInProgress = true;
+			setTimeout(function() {
+				if (ajaxInProgress)
+					$('#ajaxLoader').css('left',$(document).width()/2+'px').fadeIn(300).animate({
+						left:'+=400'
+					},{
+						'duration' : 10000,
+						'easing' : 'linear',
+						'queue' : false
+					});
+			}, 2000);
+		});
+		$(document).ajaxStop(function() {
+			ajaxInProgress = false;
+			$('#ajaxLoader').fadeOut(300);
+		});
+	});
+</script>
 
 {% block mainMenu %}
 {{ widget('bootstrap.widgets.BootNavbar',{
