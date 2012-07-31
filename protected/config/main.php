@@ -67,7 +67,7 @@ return array(
 			'nestedFolders' => 1,
 		),
 		'viewRenderer'=>array(
-			'class'=>'ext.ETwigViewRenderer',
+			'class'=>'lib.twig-renderer.ETwigViewRenderer',
 			'twigPathAlias' => 'lib.twig.lib.Twig',
 			'options' => array(
 				'autoescape' => true,
