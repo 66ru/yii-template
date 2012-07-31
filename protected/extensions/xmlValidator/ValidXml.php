@@ -1,8 +1,13 @@
 <?php
-
 /**
+ * ValidXml class file.
  * fetch file from url from attribute and check it for valid xml inside
+ *
+ * @author Andrew Putilov <me@aputilov.ru>
+ * @link https://github.com/m8rge/yii-template
+ * @license BSD
  */
+
 class ValidXml extends CValidator
 {
 	public $useCache = true;
