@@ -57,8 +57,8 @@ class AdminController extends Controller
 				if (isset($_POST[$this->modelName][$relationName]))
 					$model->$relationName = $_POST[$this->modelName][$relationName];
 			}
-			$model->scenario = 'save';
 			$this->beforeSave($model);
+			$model->scenario = 'save';
 			if($model->save()) {
 				$this->afterSave($model);
 				$this->redirect(array($this->getId()));
