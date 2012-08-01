@@ -10,12 +10,12 @@ class SerializedFieldsBehavior extends CActiveRecordBehavior
 	public function beforeSave($event)
 	{
 		foreach ($this->serializedFields as $fieldName)
-			$this->getOwner()->$fieldName = serialize($this->getOwner()->$fieldName);
+			$this->getOwner()->$fieldName = json_encode($this->getOwner()->$fieldName);
 	}
 
 	public function afterFind($event)
 	{
 		foreach ($this->serializedFields as $fieldName)
-			$this->getOwner()->$fieldName = unserialize($this->getOwner()->$fieldName);
+			$this->getOwner()->$fieldName = json_decode($this->getOwner()->$fieldName, true);
 	}
 }

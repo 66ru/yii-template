@@ -10,3 +10,6 @@
 [submodule "lib/twig-renderer"]
 	path = lib/twig-renderer
 	url = git://github.com/yiiext/twig-renderer.git
+[submodule "lib/ar-relation-behavior"]
+	path = lib/ar-relation-behavior
+	url = git@github.com:m8rge/activerecord-relation-behavior.git

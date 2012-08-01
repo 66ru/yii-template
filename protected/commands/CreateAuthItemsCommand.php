@@ -7,9 +7,6 @@ class CreateAuthItemsCommand extends CConsoleCommand
 		$auth=Yii::app()->authManager;
 
 		$existingRoles = $auth->getRoles();
-		if (!array_key_exists('user', $existingRoles)) {
-			$auth->createRole('user');
-		}
 		if (!array_key_exists('admin', $existingRoles)) {
 			$auth->createRole('admin');
 		}

@@ -41,15 +41,28 @@ class AdminController extends Controller
 		} else {
 			$model = $this->loadModel();
 		}
-		$model->scenario = 'edit';
 
-		if(isset($_POST[$this->modelName]))
-		{
-			$model->attributes=$_POST[$this->modelName];
+		if(isset($_POST[$this->modelName])) {
+			foreach ($_POST[$this->modelName] as &$postValue) {
+				if (is_string($postValue)) {
+					$postValue = trim($postValue);
+					if ($postValue === '')
+						$postValue = null;
+				}
+			}
+
+			$this->beforeSetAttributes($model, $_POST[$this->modelName]);
+			$model->setAttributes($_POST[$this->modelName]);
+			foreach($model->relations() as $relationName => $relationAttributes) {
+				if (isset($_POST[$this->modelName][$relationName]))
+					$model->$relationName = $_POST[$this->modelName][$relationName];
+			}
 			$model->scenario = 'save';
 			$this->beforeSave($model);
-			if($model->save())
+			if($model->save()) {
+				$this->afterSave($model);
 				$this->redirect(array($this->getId()));
+			}
 		}
 
 		$this->beforeEdit($model);
@@ -120,12 +133,42 @@ class AdminController extends Controller
 	}
 
 	/**
+	 * Example:
+	 * <code>
+	 *  return array(
+	 *      'name' => array(
+	 *          'type' => 'textField',
+	 *      ),
+	 *      'clientId' => array(
+	 *          'type' => 'dropDownList',
+	 *          'data' => CHtml::listData(Client::model()->findAll(), 'id', 'name'),
+	 *          'htmlOptions' => array(
+	 *              'empty' => 'Empty',
+	 *          ),
+	 *      ),
+	 *      'logoUrl' => array(
+	 *          'class' => 'ext.ImageFileRowWidget',
+	 *          'options' => array(
+	 *              'uploadedFileFieldName' => '_logo',
+	 *              'removeImageFieldName' => '_removeLogoFlag',
+	 *              'thumbnailImageUrl' => $model->getResizedLogoUrl(120, 120),
+	 *          ),
+	 *      ),
+	 *  );
+	 * </code>
+	 *
 	 * @param CActiveRecord $model
 	 * @return array
 	 */
 	public function getEditFormElements($model) {
 		return array();
 	}
+
+	/**
+	 * @param CActiveRecord $model
+	 * @param array $attributes
+	 */
+	public function beforeSetAttributes($model, &$attributes) {}
 
 	/**
 	 * @param CActiveRecord $model
