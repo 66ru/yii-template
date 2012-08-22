@@ -1,0 +1,34 @@
+{% extends 'views/layouts/admin.twig' %}
+
+{% block content %}
+<h1>{% block contentTitle %}Просмотр {{ this.modelHumanTitle[1] }}{% endblock %}</h1>
+
+{% set form = this.beginWidget('bootstrap.widgets.BootActiveForm', {
+	'type' : 'horizontal',
+}) %}
+
+{% for attributeName, element in editFormElements %}
+	{% if element['class'] %}
+		{{ widget(element['class'], element['options']|default({})|merge({'model':model, 'attributeName':element['name'], 'form':form}) ) }}
+	{% elseif element['type'] %}
+		{% if element['data'] %}
+			{{ attribute(form, element['type']~'Row', [ model, attributeName, element['data'], element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}
+		{% else %}
+			{{ attribute(form, element['type']~'Row', [ model, attributeName, element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}
+		{% endif %}
+	{% else %}
+		{{ element|raw }}
+	{% endif %}
+{% endfor %}
+
+<div class="form-actions">
+	{{ widget('bootstrap.widgets.BootButton', {
+		'icon' : 'icon-arrow-left',
+		'label' : 'Вернуться назад',
+		'url' : ['/'~this.getId()]
+	}) }}
+</div>
+
+{{ void(this.endWidget()) }}
+
+{% endblock %}
