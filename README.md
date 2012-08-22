@@ -12,4 +12,4 @@ Yii template project with nice bundled extensions.
 * [screenshot2](http://dl.dropbox.com/u/788488/Screenshots/yii-template screenshot2.png)
 
 ### Notice
-Current version builded for cyrillic language support. Future versions will support english.
+Current version is built for cyrillic language support. Future versions will support english.
