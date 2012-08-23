@@ -53,7 +53,7 @@ class MultiImageFileRowWidget extends CWidget
 						$image,
 						array('target' => '_blank', 'style'=>'margin-right:1em')
 					);
-				echo '<label class="checkbox" style="display:inline-block" for="'.ExtendedHtml::resolveId($model, $this->removeImageFieldName."[$id]").'">';
+				echo '<label class="checkbox" style="display:inline-block" for="'.EHtml::resolveId($model, $this->removeImageFieldName."[$id]").'">';
 				echo $form->checkBox($model, $this->removeImageFieldName."[$id]");
 				echo $model->getAttributeLabel($this->removeImageFieldName);
 				echo '</label></div>';

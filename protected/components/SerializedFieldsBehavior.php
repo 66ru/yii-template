@@ -16,6 +16,7 @@ class SerializedFieldsBehavior extends CActiveRecordBehavior
 	public function afterFind($event)
 	{
 		foreach ($this->serializedFields as $fieldName)
-			$this->getOwner()->$fieldName = json_decode($this->getOwner()->$fieldName, true);
+			if (is_string($this->getOwner()->$fieldName))
+				$this->getOwner()->$fieldName = json_decode($this->getOwner()->$fieldName, true);
 	}
 }
