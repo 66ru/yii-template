@@ -77,6 +77,7 @@ return array(
 					0 => 'TwigFunctions::widget',
 					1 => array('is_safe' => array('html')),
 				),
+				'const' => 'TwigFunctions::constGet',
 			),
 		),
 		'bootstrap'=>array(
