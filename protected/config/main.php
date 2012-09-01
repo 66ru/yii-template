@@ -78,6 +78,7 @@ return array(
 					1 => array('is_safe' => array('html')),
 				),
 				'const' => 'TwigFunctions::constGet',
+				'static' => 'TwigFunctions::staticCall',
 			),
 		),
 		'bootstrap'=>array(

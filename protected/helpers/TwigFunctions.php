@@ -3,13 +3,13 @@
 class TwigFunctions
 {
 	/**
-	 * @param string $className
+	 * @param string $class
 	 * @param array $properties
 	 * @return string
 	 */
-	public function widget($className, $properties = array()) {
+	public function widget($class, $properties = array()) {
 		$c = Yii::app()->getController();
-		return $c->widget($className, $properties, true);
+		return $c->widget($class, $properties, true);
 	}
 
 	/**
@@ -20,5 +20,15 @@ class TwigFunctions
 	public function constGet($class, $property) {
 		$c = new ReflectionClass($class);
 		return $c->getConstant($property);
+	}
+
+	/**
+	 * @param string $class
+	 * @param string $method
+	 * @param array $params
+	 * @return mixed
+	 */
+	public function staticCall($class, $method, $params = array()) {
+		return call_user_func_array($class.'::'.$method, $params);
 	}
 }
