@@ -1,5 +1,5 @@
 <?php
-
+// todo: need upgrade to DependedInputWidget look like
 class DependInputScriptWidget extends CWidget
 {
 	public $model;
