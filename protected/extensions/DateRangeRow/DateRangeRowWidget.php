@@ -27,8 +27,8 @@ class DateRangeRowWidget extends CWidget
 
 	public function run()
 	{
-		$idFrom = ExtendedHtml::resolveId($this->model, $this->attributeName);
-		$idTo = ExtendedHtml::resolveId($this->model, $this->attributeDateTo);
+		$idFrom = EHtml::resolveId($this->model, $this->attributeName);
+		$idTo = EHtml::resolveId($this->model, $this->attributeDateTo);
 		Yii::app()->clientScript->registerScript('datePickerInitialize','
 			$.datepicker.setDefaults( $.datepicker.regional["ru"] );
 			$("#'.$idFrom.'").datepicker({
@@ -56,7 +56,9 @@ class DateRangeRowWidget extends CWidget
 			{$this->form->textField($this->model, $this->attributeName)}<span class='add-on'><i class='icon-calendar'></i></span>
 		</div>
 		<div class='input-append'>
-			<span style='margin: 0 20px;'>{$this->model->getAttributeLabel($this->attributeDateTo)}</span>
+			<label style='margin: 0 20px; display:inline;' for='".$idTo."'>
+				{$this->model->getAttributeLabel($this->attributeDateTo)}
+			</label>
 			{$this->form->textField($this->model, $this->attributeDateTo)}<span class='add-on'><i class='icon-calendar'></i></span>
 		</div>
 	</div>
