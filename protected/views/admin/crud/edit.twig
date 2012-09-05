@@ -15,7 +15,7 @@
 	{% if element['class'] %}
 		{{ widget(element['class'], element['options']|default({})|merge({'model':model, 'attributeName':element['name'], 'form':form}) ) }}
 	{% elseif element['type'] %}
-		{% if element['data'] %}
+		{% if element['data'] is defined %}
 			{{ attribute(form, element['type']~'Row', [ model, attributeName, element['data'], element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}
 		{% else %}
 			{{ attribute(form, element['type']~'Row', [ model, attributeName, element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}
