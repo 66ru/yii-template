@@ -47,7 +47,7 @@ class FileSystem extends CComponent
 		$path = '';
 		$fileName = pathinfo($uid, PATHINFO_FILENAME);
 		for($i=0; $i<$this->nestedFolders; $i++) {
-			$path.=substr($fileName, -$i-1, 1).'/';
+			$path.=substr($fileName, -$i*2-2, 2).'/';
 		}
 
 		return $path;
