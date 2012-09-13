@@ -40,14 +40,14 @@ class FileSystem extends CComponent
 	}
 
 	private function getUniqId() {
-		return uniqid();
+		return md5(microtime(true).mt_rand());
 	}
 
 	public function getIntermediatePath($uid) {
 		$path = '';
 		$fileName = pathinfo($uid, PATHINFO_FILENAME);
 		for($i=0; $i<$this->nestedFolders; $i++) {
-			$path.=substr($fileName, -$i*2-2, 2).'/';
+			$path.= substr($fileName, $i*2, 2).'/';
 		}
 
 		return $path;
