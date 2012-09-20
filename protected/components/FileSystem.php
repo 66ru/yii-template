@@ -144,22 +144,28 @@ class FileSystem extends CComponent
 	/**
 	 * @param string $uid
 	 * @param array $sizes
+	 * @param bool $forceCreate
+	 * @return void
 	 */
-	public function resizeImage($uid, $sizes = array()) {
+	public function resizeImage($uid, $sizes = array(), $forceCreate = false) {
 		/** @var $cImage CImageComponent */
 		$cImage = Yii::app()->image;
 		$imageFile = $this->getFilePath($uid);
-		$originalImage = $cImage->load($imageFile);
 		$pathInfo = pathinfo($imageFile);
+		$ext = $pathInfo['extension'] ? '.'.$pathInfo['extension'] : '';
+
+		$originalImage = $cImage->load($imageFile);
 		if (!is_array($sizes[0]))
 			$sizes = array($sizes);
 
 		foreach($sizes as $size) {
+			$newImageName = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . $this->getSizeSuffix($size) . $ext;
+			if (file_exists($newImageName) && !$forceCreate)
+				continue;
+
 			$image = $originalImage;
 			$image->resize($size[0], $size[1], !empty($size[2]) ? $size[2] : Image::AUTO)->quality($this->jpegQuality);
-
-			$ext = $pathInfo['extension'] ? '.'.$pathInfo['extension'] : '';
-			$image->save($pathInfo['dirname'].'/'.$pathInfo['filename'].$this->getSizeSuffix($size).$ext);
+			$image->save($newImageName, 0664);
 		}
 	}
 }
