@@ -16,8 +16,8 @@ class EHtml
 
 	/**
 	 * @param CActiveRecord $model
-	 * @param string $valueField
-	 * @param string $textField
+	 * @param string $valueField defaults to primary key field
+	 * @param string $textField defaults to primary key field
 	 * @return array
 	 */
 	public static function listData($model, $valueField = '', $textField = '')

@@ -2,6 +2,12 @@
 
 class ImageHelper
 {
+
+	/**
+	 * @param $imagePath
+	 * @return array|bool array(width, height) if success
+	 * @throws CException
+	 */
 	public static function checkImageCorrect($imagePath)
 	{
 		$cmd = "identify -format \"%w|%h|%k\" ".escapeshellarg($imagePath)." 2>&1";
@@ -9,7 +15,9 @@ class ImageHelper
 		$output = array();
 		exec($cmd, $output, $returnVal);
 		if ($returnVal == 0 && count($output) == 1) {
-			return true;
+			$imageSizes = explode('|', $output[0]);
+			array_pop($imageSizes);
+			return $imageSizes;
 		} elseif ($returnVal == 127) {
 			throw new CException('Can\'t find identify');
 		} else {
