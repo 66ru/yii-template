@@ -7,17 +7,15 @@ class AdminUsersController extends AdminController
 	public $modelName = 'User';
 	public $modelHumanTitle = array('пользователя', 'пользователя', 'пользователей');
 
-	public function getEditFormElements() {
-		$authItems = AuthItem::model()->findAll();
-		$authItems = CHtml::listData($authItems, 'name', 'name');
-
+	public function getEditFormElements()
+	{
 		return array(
 			'email' => array(
 				'type' => 'textField'
 			),
 			'authItems' => array(
 				'type' => 'dropDownList',
-				'data' => $authItems,
+				'data' => EHtml::listData(AuthItem::model()),
 				'htmlOptions' => array(
 					'multiple' => true,
 					'size' => 20,

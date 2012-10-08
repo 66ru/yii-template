@@ -149,7 +149,7 @@ class AdminController extends Controller
 
 		$template = '';
 		if (!$allowEdit && $allowView)
-			$template = '{view}';//';
+			$template = '{view}';
 		elseif ($allowEdit)
 			$template = '{update}';
 		if ($allowDelete) {
