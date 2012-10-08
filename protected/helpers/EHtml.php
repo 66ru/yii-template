@@ -11,7 +11,7 @@ class EHtml
 	 * @return string the ID generated based on name.
 	 */
 	public static function resolveId($model, $attribute) {
-		return CHtml::getIdByName(Chtml::resolveName($model, $attribute));
+		return CHtml::getIdByName(CHtml::resolveName($model, $attribute));
 	}
 
 	/**
