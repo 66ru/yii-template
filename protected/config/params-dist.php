@@ -8,4 +8,6 @@ return array(
 	'dbName' => '',
 	'dbLogin' => '',
 	'dbPassword' => '',
+
+    'imageDriver' => '', //Image_GD_Driver,Image_ImageMagick_Driver
 );
