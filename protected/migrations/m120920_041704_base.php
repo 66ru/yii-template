@@ -6,7 +6,7 @@ class m120920_041704_base extends CDbMigration
 	{
 		$dumpFile = dirname(__FILE__).'/base.sql';
 
-		$db = Yii::app()->db;
+		$db = $this->dbConnection;
 		$dbUser = $db->username;
 		$dbPass = $db->password;
 		if (preg_match('/host=([^;]*)/', $db->connectionString, $regs)) {
