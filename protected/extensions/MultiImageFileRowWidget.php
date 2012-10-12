@@ -40,23 +40,24 @@ class MultiImageFileRowWidget extends CWidget
 		echo '<div class="controls-group">';
 		$htmlOptions['class'] = 'control-label';
 		echo CHtml::activeLabelEx($model, $attributeName, $htmlOptions);
-		foreach ($model->$attributeName as $id => $value) {
-			$thumbnail = $value;
-			if (!empty($this->thumbnailImage))
-				$thumbnail = $this->evaluateExpression($this->thumbnailImage, array('data'=>$model, 'value'=>$value));
-			$image = $this->evaluateExpression($this->image, array('data'=>$model, 'value'=>$value));
+		if (is_array($model->$attributeName))
+			foreach ($model->$attributeName as $id => $value) {
+				$thumbnail = $value;
+				if (!empty($this->thumbnailImage))
+					$thumbnail = $this->evaluateExpression($this->thumbnailImage, array('data'=>$model, 'value'=>$value));
+				$image = $this->evaluateExpression($this->image, array('data'=>$model, 'value'=>$value));
 
-			echo '<div class="controls controls-line">';
-			echo CHtml::link(
-					CHtml::image($thumbnail, '', array('style'=>"max-width:{$this->maxImageSize}px; max-height:{$this->maxImageSize}px")),
-					$image,
-					array('target' => '_blank', 'style'=>'margin-right:1em')
-				);
-			echo '<label class="checkbox" style="display:inline-block" for="'.EHtml::resolveId($model, $this->removeImageFieldName."[$id]").'">';
-			echo $form->checkBox($model, $this->removeImageFieldName."[$id]");
-			echo $model->getAttributeLabel($this->removeImageFieldName);
-			echo '</label></div>';
-		}
+				echo '<div class="controls controls-line">';
+				echo CHtml::link(
+						CHtml::image($thumbnail, '', array('style'=>"max-width:{$this->maxImageSize}px; max-height:{$this->maxImageSize}px")),
+						$image,
+						array('target' => '_blank', 'style'=>'margin-right:1em')
+					);
+				echo '<label class="checkbox" style="display:inline-block" for="'.EHtml::resolveId($model, $this->removeImageFieldName."[$id]").'">';
+				echo $form->checkBox($model, $this->removeImageFieldName."[$id]");
+				echo $model->getAttributeLabel($this->removeImageFieldName);
+				echo '</label></div>';
+			}
 
 		$fileUploadTemplate = '<div class="controls">';
 		$fileUploadTemplate.= CHtml::activeFileField($model, $this->uploadedFileFieldName."[]");
