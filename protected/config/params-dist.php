@@ -9,5 +9,5 @@ return array(
 	'dbLogin' => '',
 	'dbPassword' => '',
 
-    'imageDriver' => '', //Image_GD_Driver,Image_ImageMagick_Driver
+	'imageDriver' => '', //Image_GD_Driver,Image_ImageMagick_Driver
 );
