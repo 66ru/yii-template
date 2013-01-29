@@ -16,6 +16,7 @@ return array(
         'application.models.forms.*',
         'application.components.*',
         'application.helpers.*',
+        'lib.CurlHelper.*',
     ),
 
     'modules' => array(// uncomment the following to enable the Gii tool
