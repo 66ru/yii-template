@@ -13,3 +13,6 @@ Yii template project with nice bundled extensions.
 
 ### Notice
 Current version is built for cyrillic language support. Future versions will support english.
+
+## Backwards incompatability changes
+* Converted Boot* class names to Tb* class names
