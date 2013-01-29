@@ -10,60 +10,62 @@
 
 class ValidXml extends CValidator
 {
-	public $useCache = true;
+    public $useCache = true;
 
-	private static $filesCache = array();
+    private static $filesCache = array();
 
-	function __construct()
-	{
-		Yii::app()->attachEventHandler('onEndRequest', array('ValidXml', 'removeTemporaryFiles'));
-	}
+    function __construct()
+    {
+        Yii::app()->attachEventHandler('onEndRequest', array('ValidXml', 'removeTemporaryFiles'));
+    }
 
-	public static function removeTemporaryFiles(){
-		foreach(self::$filesCache as $file) {
-			if (file_exists($file)) {
-				unlink($file);
-			}
-		}
-	}
+    public static function removeTemporaryFiles()
+    {
+        foreach (self::$filesCache as $file) {
+            if (file_exists($file)) {
+                unlink($file);
+            }
+        }
+    }
 
-	/**
-	 * Validates a single attribute.
-	 * This method should be overridden by child classes.
-	 * @param CModel $object the data object being validated
-	 * @param string $attribute the name of the attribute to be validated.
-	 */
-	protected function validateAttribute($object, $attribute)
-	{
-		$value = $object->$attribute;
+    /**
+     * Validates a single attribute.
+     * This method should be overridden by child classes.
+     * @param CModel $object the data object being validated
+     * @param string $attribute the name of the attribute to be validated.
+     */
+    protected function validateAttribute($object, $attribute)
+    {
+        $value = $object->$attribute;
 
-		$xml = false;
-		if ($this->useCache && !empty(self::$filesCache[$value])) {
-			$xmlFile = self::$filesCache[$value];
-		} else {
-			$xmlFile = tempnam(Yii::app()->getRuntimePath(), 'xml');
-			try {
-				CurlHelper::downloadToFile($value, $xmlFile);
-				self::$filesCache[$value] = $xmlFile;
-			} catch (Exception $e) {}
-		}
+        $xml = false;
+        if ($this->useCache && !empty(self::$filesCache[$value])) {
+            $xmlFile = self::$filesCache[$value];
+        } else {
+            $xmlFile = tempnam(Yii::app()->getRuntimePath(), 'xml');
+            try {
+                CurlHelper::downloadToFile($value, $xmlFile);
+                self::$filesCache[$value] = $xmlFile;
+            } catch (Exception $e) {
+            }
+        }
 
-		if (file_exists($xmlFile)) {
-			$xml = @simplexml_load_file($xmlFile);
-		}
+        if (file_exists($xmlFile)) {
+            $xml = @simplexml_load_file($xmlFile);
+        }
 
-		if ($xml === false) {
-			$message = $this->message!==null ? $this->message : Yii::t('ValidXml.app','{attribute} doesn\'t contain valid XML.');
-			$this->addError($object, $attribute, $message);
-		}
-	}
+        if ($xml === false) {
+            $message = $this->message !== null ? $this->message : Yii::t('ValidXml.app', '{attribute} doesn\'t contain valid XML.');
+            $this->addError($object, $attribute, $message);
+        }
+    }
 
-	public function clientValidateAttribute($object, $attribute)
-	{
-		$value = $object->$attribute;
-		$message = $this->message!==null ? $this->message : Yii::t('ValidXml.app','{attribute} doesn\'t contain valid XML.');
-		$message = json_encode($message);
-		$jsxmlvali = "
+    public function clientValidateAttribute($object, $attribute)
+    {
+        $value = $object->$attribute;
+        $message = $this->message !== null ? $this->message : Yii::t('ValidXml.app', '{attribute} doesn\'t contain valid XML.');
+        $message = json_encode($message);
+        $jsxmlvali = "
 /*
  * @Author Denis Khripkov | denisx@ya.ru | www.denisx.ru
  */
@@ -199,7 +201,7 @@ oXmlValidator.Object.prototype = {
 	}
 };
 ";
-		$script = "
+        $script = "
 $.get('$value', function(data){
 	var my_oXmlValidator = new oXmlValidator.Object(data);
 	if (!my_oXmlValidator.valid())
@@ -207,7 +209,7 @@ $.get('$value', function(data){
 });
 ";
 
-		return $jsxmlvali.$script;
-	}
+        return $jsxmlvali . $script;
+    }
 
 }

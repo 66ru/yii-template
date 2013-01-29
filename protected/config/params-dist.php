@@ -1,13 +1,13 @@
 <?php
 
 return array(
-	'appName' => '',
-	'yiiDebug' => true,
+    'appName' => '',
+    'yiiDebug' => true,
 
-	'dbHost' => '127.0.0.1',
-	'dbName' => '',
-	'dbLogin' => '',
-	'dbPassword' => '',
+    'dbHost' => '127.0.0.1',
+    'dbName' => '',
+    'dbLogin' => '',
+    'dbPassword' => '',
 
-	'imageDriver' => '', //Image_GD_Driver,Image_ImageMagick_Driver
+    'imageDriver' => '', //Image_GD_Driver,Image_ImageMagick_Driver
 );

@@ -2,27 +2,27 @@
 
 class TbImageColumn extends TbDataColumn
 {
-	public $type='raw';
+    public $type = 'raw';
 
-	public $filter = false;
+    public $filter = false;
 
-	public $htmlOptions = array('style'=>'width:120px');
+    public $htmlOptions = array('style' => 'width:120px');
 
-	public $imageStyle = 'max-width:120px';
+    public $imageStyle = 'max-width:120px';
 
-	public $thumbnailUrl = null;
+    public $thumbnailUrl = null;
 
-	public function init()
-	{
-		if (empty($this->thumbnailUrl))
-			$this->thumbnailUrl = '$data->'.$this->name;
-		$this->value = '
+    public function init()
+    {
+        if (empty($this->thumbnailUrl))
+            $this->thumbnailUrl = '$data->' . $this->name;
+        $this->value = '
 			CHtml::link(
-				CHtml::image('.$this->thumbnailUrl.',"", array("style"=>"'.$this->imageStyle.'")),
-				$data->'.$this->name.',
+				CHtml::image(' . $this->thumbnailUrl . ',"", array("style"=>"' . $this->imageStyle . '")),
+				$data->' . $this->name . ',
 				array("target" => "_blank")
 			);';
 
-		parent::init();
-	}
+        parent::init();
+    }
 }
