@@ -52,7 +52,7 @@ class AdminUsersController extends AdminController
     {
         if (mb_strlen($model->password) < 32)
             $model->password = md5($model->password . Yii::app()->params['md5Salt']);
-        ;
+        
         parent::beforeSave($model);
     }
 
