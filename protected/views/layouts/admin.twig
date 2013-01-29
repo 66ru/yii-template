@@ -36,17 +36,17 @@
 </script>
 
 {% block mainMenu %}
-{{ widget('bootstrap.widgets.BootNavbar',{
+{{ widget('bootstrap.widgets.TbNavbar',{
 	'collapse' : true,
 	'items':[
 	{
-		'class' : 'bootstrap.widgets.BootMenu',
+		'class' : 'bootstrap.widgets.TbMenu',
 		'items' : [
 			{'label':'Вернуться на сайт', 'url':['/site/index']},
 			{'label':'Пользователи', 'url':['/admin/adminUsers'], 'active' : this.id == 'admin/adminUsers' },
 		]
 	},{
-		'class' : 'bootstrap.widgets.BootMenu',
+		'class' : 'bootstrap.widgets.TbMenu',
 		'htmlOptions' : {'class':'pull-right'},
 		'items' : [
 			{'label':'Выйти ('~App.user.name~')', 'url':['/site/logout'], 'visible':not App.user.isGuest}

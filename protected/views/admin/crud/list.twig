@@ -4,7 +4,7 @@
     <h1>Список {{ this.modelHumanTitle[2] }}</h1>
 
     {% if canAdd %}
-        {{ widget('bootstrap.widgets.BootButton', {
+        {{ widget('bootstrap.widgets.TbButton', {
         'buttonType' : 'link',
         'type' : 'primary',
         'icon' : 'plus white',
@@ -13,7 +13,7 @@
         }) }}
     {% endif %}
 
-    {{ widget('bootstrap.widgets.BootGridView', {
+    {{ widget('bootstrap.widgets.TbGridView', {
     'type' : 'condensed striped',
     'dataProvider' : model.search(),
     'filter' : model,

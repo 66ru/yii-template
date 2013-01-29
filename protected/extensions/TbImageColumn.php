@@ -1,6 +1,6 @@
 <?php
 
-class BootImageColumn extends BootDataColumn
+class TbImageColumn extends TbDataColumn
 {
 	public $type='raw';
 
@@ -25,5 +25,4 @@ class BootImageColumn extends BootDataColumn
 
 		parent::init();
 	}
-
 }

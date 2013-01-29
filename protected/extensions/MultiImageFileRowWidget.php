@@ -8,7 +8,7 @@ class MultiImageFileRowWidget extends CWidget
 	/** @var string refers to fullsize image URL */
 	public $attributeName;
 
-	/** @var BootActiveForm */
+	/** @var TbActiveForm */
 	public $form;
 
 	/** @var string refers to CUploadedFile instance */
@@ -64,7 +64,7 @@ class MultiImageFileRowWidget extends CWidget
 		$fileUploadTemplate.= "</div>";
 		$fileUploadTemplate = str_replace('"', '\\"', $fileUploadTemplate);
 		echo '<div class="controls js-button">';
-		$this->widget('bootstrap.widgets.BootButton', array(
+		$this->widget('bootstrap.widgets.TbButton', array(
 			'label' => 'Добавить изображение',
 			'icon' => 'plus',
 		));

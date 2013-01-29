@@ -11,7 +11,7 @@ class DateRangeRowWidget extends CWidget
 	/** @var string dateTo */
 	public $attributeDateTo;
 
-	/** @var BootActiveForm */
+	/** @var TbActiveForm */
 	public $form;
 
 	public function init()

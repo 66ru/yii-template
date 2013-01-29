@@ -1,6 +1,6 @@
 <?php
 
-Yii::app()->getComponent('bootstrap');
+Yii::app()->getComponent('bootstrap')->register();
 
 class AdminController extends Controller
 {
@@ -160,7 +160,7 @@ class AdminController extends Controller
 		}
 
 		return array(
-			'class' => 'bootstrap.widgets.BootButtonColumn',
+			'class' => 'bootstrap.widgets.TbButtonColumn',
 			'template' => $template,
 			'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))'
 		);
