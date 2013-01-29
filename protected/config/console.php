@@ -14,6 +14,8 @@ return array(
         'application.models.forms.*',
         'application.components.*',
         'application.helpers.*',
+        'lib.CurlHelper.*',
+        'lib.ImageHelper.*',
     ),
 
     // application components

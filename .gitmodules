@@ -16,3 +16,6 @@
 [submodule "lib/CurlHelper"]
 	path = lib/CurlHelper
 	url = git://github.com/mediasite/CurlHelper.git
+[submodule "lib/ImageHelper"]
+	path = lib/ImageHelper
+	url = git://github.com/mediasite/ImageHelper.git

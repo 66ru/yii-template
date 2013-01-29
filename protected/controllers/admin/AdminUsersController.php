@@ -7,7 +7,11 @@ class AdminUsersController extends AdminController
     public $modelName = 'User';
     public $modelHumanTitle = array('пользователя', 'пользователя', 'пользователей');
 
-    public function getEditFormElements()
+    /**
+     * @param User $model
+     * @return array
+     */
+    public function getEditFormElements($model)
     {
         return array(
             'email' => array(
@@ -25,7 +29,7 @@ class AdminUsersController extends AdminController
                 'type' => 'passwordField',
                 'htmlOptions' => array(
                     'value' => '',
-                    'hint' => 'Если ничего не вводить, то пароль не будет изменен.',
+                    'hint' => $model->isNewRecord ? '' : 'Если ничего не вводить, то пароль не будет изменен.',
                 ),
             ),
         );

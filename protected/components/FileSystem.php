@@ -85,7 +85,7 @@ class FileSystem extends CComponent
             $originalName = $fileName;
         $ext = strtolower(CFileHelper::getExtension($originalName));
         if (empty($ext)) { // we have empty extension. Trying determine using mime type
-            $ext = ExtendedFileHelper::getExtensionByMimeType($fileName);
+            $ext = EFileHelper::getExtensionByMimeType($fileName);
         }
         if (!empty($ext))
             $ext = '.' . $ext;

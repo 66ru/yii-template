@@ -1,7 +1,11 @@
 <?php
 
-class ExtendedFileHelper
+class EFileHelper
 {
+    /**
+     * @param string $fileName
+     * @return string
+     */
     public static function getExtensionByMimeType($fileName)
     {
         $mimeTypes = require(Yii::getPathOfAlias('system.utils.mimeTypes') . '.php');
