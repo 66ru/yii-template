@@ -33,11 +33,13 @@ class FileSystem extends CComponent
         if (is_null($this->storageUrl)) {
             $this->storageUrl = '/storage/';
         }
-        if (!file_exists($this->storagePath))
+        if (!file_exists($this->storagePath)) {
             mkdir($this->storagePath, 0777, true);
+        }
         $this->storagePath = realpath($this->storagePath) . '/';
-        if (!is_dir($this->storagePath))
+        if (!is_dir($this->storagePath)) {
             throw new CException('FileSystem->storagePath is not dir (' . $this->storagePath . ')');
+        }
     }
 
     private function getUniqId()
@@ -81,20 +83,23 @@ class FileSystem extends CComponent
      */
     public function publishFile($fileName, $originalName = null)
     {
-        if (is_null($originalName))
+        if (is_null($originalName)) {
             $originalName = $fileName;
+        }
         $ext = strtolower(CFileHelper::getExtension($originalName));
         if (empty($ext)) { // we have empty extension. Trying determine using mime type
             $ext = EFileHelper::getExtensionByMimeType($fileName);
         }
-        if (!empty($ext))
+        if (!empty($ext)) {
             $ext = '.' . $ext;
+        }
 
         $uid = $this->getUniqId() . $ext;
         $publishedFileName = $this->getFilePath($uid);
         $newDirName = pathinfo($publishedFileName, PATHINFO_DIRNAME);
-        if (!file_exists($newDirName))
+        if (!file_exists($newDirName)) {
             mkdir($newDirName, 0777, true);
+        }
 
         copy($fileName, $publishedFileName);
 
@@ -109,8 +114,9 @@ class FileSystem extends CComponent
         $filePath = $this->getFilePath($uid);
         $dirName = pathinfo($filePath, PATHINFO_DIRNAME);
         $fileName = pathinfo($filePath, PATHINFO_FILENAME);
-        foreach (glob($dirName . '/' . $fileName . '*') as $file)
+        foreach (glob($dirName . '/' . $fileName . '*') as $file) {
             unlink($file);
+        }
     }
 
     /********************************/
@@ -124,8 +130,9 @@ class FileSystem extends CComponent
     {
         $fileName = pathinfo($uid, PATHINFO_FILENAME);
         $ext = pathinfo($uid, PATHINFO_EXTENSION);
-        if (!empty($ext))
+        if (!empty($ext)) {
             $ext = '.' . $ext;
+        }
 
         return $this->storageUrl . $this->getIntermediatePath($uid) . $fileName . $this->getSizeSuffix($size) . $ext;
     }
@@ -137,14 +144,17 @@ class FileSystem extends CComponent
     public function getSizeSuffix($size)
     {
         $suffix = '';
-        if (empty($size[2]))
+        if (empty($size[2])) {
             $size[2] = Image::AUTO;
+        }
 
-        if ($size[2] == Image::AUTO)
+        if ($size[2] == Image::AUTO) {
             $suffix = "-{$size[0]}x{$size[1]}";
-        elseif ($size[2] == Image::WIDTH)
-            $suffix = "-w{$size[0]}"; elseif ($size[2] == Image::HEIGHT)
+        } elseif ($size[2] == Image::WIDTH) {
+            $suffix = "-w{$size[0]}";
+        } elseif ($size[2] == Image::HEIGHT) {
             $suffix = "-h{$size[1]}";
+        }
 
         return $suffix;
     }
@@ -164,13 +174,15 @@ class FileSystem extends CComponent
         $ext = $pathInfo['extension'] ? '.' . $pathInfo['extension'] : '';
 
         $originalImage = $cImage->load($imageFile);
-        if (!is_array($sizes[0]))
+        if (!is_array($sizes[0])) {
             $sizes = array($sizes);
+        }
 
         foreach ($sizes as $size) {
             $newImageName = $pathInfo['dirname'] . '/' . $pathInfo['filename'] . $this->getSizeSuffix($size) . $ext;
-            if (file_exists($newImageName) && !$forceCreate)
+            if (file_exists($newImageName) && !$forceCreate) {
                 continue;
+            }
 
             $image = $originalImage;
             $image->resize($size[0], $size[1], !empty($size[2]) ? $size[2] : Image::AUTO)->quality($this->jpegQuality);

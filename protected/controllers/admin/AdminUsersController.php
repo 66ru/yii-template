@@ -50,8 +50,9 @@ class AdminUsersController extends AdminController
      */
     public function beforeSetAttributes($model, &$attributes)
     {
-        if (empty($attributes['password']))
+        if (empty($attributes['password'])) {
             unset($attributes['password']);
+        }
 
         parent::beforeSetAttributes($model, $attributes);
     }

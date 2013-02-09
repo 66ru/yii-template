@@ -85,11 +85,16 @@ class ImageFileRowWidget extends CWidget
             $htmlOptions = array('hint' => $this->hint);
         }
         if (!empty($model->$attributeName)) {
-            if (empty($this->thumbnailImageUrl))
+            if (empty($this->thumbnailImageUrl)) {
                 $this->thumbnailImageUrl = $model->$attributeName;
+            }
             $htmlOptions = array(
                 'hint' => $this->hint . "<br /><br />" . CHtml::link(
-                    CHtml::image($this->thumbnailImageUrl, '', array('style' => "max-width:{$this->maxImageSize}px; max-height:{$this->maxImageSize}px")),
+                    CHtml::image(
+                        $this->thumbnailImageUrl,
+                        '',
+                        array('style' => "max-width:{$this->maxImageSize}px; max-height:{$this->maxImageSize}px")
+                    ),
                     $model->$attributeName,
                     array('target' => '_blank')
                 ),

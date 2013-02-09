@@ -19,7 +19,6 @@ class UserIdentity extends CBaseUserIdentity
     public $password;
 
     /**
-     * Constructor.
      * @param string $email email
      * @param string $password password
      */
@@ -31,14 +30,17 @@ class UserIdentity extends CBaseUserIdentity
 
     public function authenticate()
     {
+        /** @var $record User */
         $record = User::model()->findByAttributes(array('email' => $this->email));
-        if ($record === null)
+        if ($record === null) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
-        else if ($record->password !== md5($this->password . Yii::app()->params['md5Salt']))
-            $this->errorCode = self::ERROR_PASSWORD_INVALID;
-        else {
-            $this->_id = $record->id;
-            $this->errorCode = self::ERROR_NONE;
+        } else {
+            if ($record->password !== User::hashPassword($this->password)) {
+                $this->errorCode = self::ERROR_PASSWORD_INVALID;
+            } else {
+                $this->_id = $record->id;
+                $this->errorCode = self::ERROR_NONE;
+            }
         }
         return !$this->errorCode;
     }

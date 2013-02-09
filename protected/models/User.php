@@ -58,7 +58,16 @@ class User extends CActiveRecord
 
     public function setPassword($value)
     {
-        $this->hashedPassword = md5($value . Yii::app()->params['md5Salt']);
+        $this->hashedPassword = $this->hashPassword($value);
+    }
+
+    /**
+     * @param string $password
+     * @return string
+     */
+    public static function hashPassword($password)
+    {
+        return md5($password . Yii::app()->params['md5Salt']);
     }
 
     public function getPassword()

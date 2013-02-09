@@ -34,11 +34,13 @@ class AdminController extends Controller
     {
         $allowedActions = array_merge(explode(',', $this->allowedActions), array('index', 'list'));
         return array(
-            array('allow',
+            array(
+                'allow',
                 'actions' => $allowedActions,
                 'roles' => array('admin')
             ),
-            array('deny',
+            array(
+                'deny',
                 'users' => array('*')
             ),
         );
@@ -64,16 +66,18 @@ class AdminController extends Controller
             foreach ($_POST[$this->modelName] as &$postValue) {
                 if (is_string($postValue)) {
                     $postValue = trim($postValue);
-                    if ($postValue === '')
+                    if ($postValue === '') {
                         $postValue = null;
+                    }
                 }
             }
 
             $this->beforeSetAttributes($model, $_POST[$this->modelName]);
             $model->setAttributes($_POST[$this->modelName]);
             foreach ($model->relations() as $relationName => $relationAttributes) {
-                if (isset($_POST[$this->modelName][$relationName]))
+                if (isset($_POST[$this->modelName][$relationName])) {
                     $model->$relationName = $_POST[$this->modelName][$relationName];
+                }
             }
             $this->beforeSave($model);
             if ($model->save()) {
@@ -83,20 +87,26 @@ class AdminController extends Controller
         }
 
         $this->beforeEdit($model);
-        $this->render('//admin/crud/' . ($createNew ? 'add' : 'edit'), array(
-            'model' => $model,
-            'editFormElements' => $this->getEditFormElements($model),
-        ));
+        $this->render(
+            '//admin/crud/' . ($createNew ? 'add' : 'edit'),
+            array(
+                'model' => $model,
+                'editFormElements' => $this->getEditFormElements($model),
+            )
+        );
     }
 
     public function actionView()
     {
         $model = $this->loadModel();
 
-        $this->render('//admin/crud/view', array(
-            'model' => $model,
-            'editFormElements' => $this->getEditFormElements($model),
-        ));
+        $this->render(
+            '//admin/crud/view',
+            array(
+                'model' => $model,
+                'editFormElements' => $this->getEditFormElements($model),
+            )
+        );
     }
 
     /**
@@ -128,14 +138,18 @@ class AdminController extends Controller
         $model = new $this->modelName('search');
 
         $this->beforeList($model, $_GET[$this->modelName]);
-        if (isset($_GET[$this->modelName]))
+        if (isset($_GET[$this->modelName])) {
             $model->attributes = $_GET[$this->modelName];
+        }
 
-        $this->render('//admin/crud/list', array(
-            'model' => $model,
-            'columns' => $this->getTableColumns(),
-            'canAdd' => in_array('add', explode(',', $this->allowedActions)),
-        ));
+        $this->render(
+            '//admin/crud/list',
+            array(
+                'model' => $model,
+                'columns' => $this->getTableColumns(),
+                'canAdd' => in_array('add', explode(',', $this->allowedActions)),
+            )
+        );
     }
 
     public function actionDelete()
@@ -145,10 +159,12 @@ class AdminController extends Controller
             $this->loadModel()->delete();
 
             // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
-            if (!isset($_GET['ajax']))
+            if (!isset($_GET['ajax'])) {
                 $this->redirect(array($this->getId()));
-        } else
+            }
+        } else {
             throw new CHttpException(400);
+        }
     }
 
     /**
@@ -191,15 +207,17 @@ class AdminController extends Controller
         $allowEdit = in_array('edit', $allowedActions);
 
         $template = '';
-        if (!$allowEdit && $allowView)
+        if (!$allowEdit && $allowView) {
             $template = '{view}';
-        elseif ($allowEdit)
+        } elseif ($allowEdit) {
             $template = '{update}';
+        }
         if ($allowDelete) {
-            if (!empty($template))
+            if (!empty($template)) {
                 $template .= '&nbsp;&nbsp;&nbsp;{delete}';
-            else
+            } else {
                 $template = '{delete}';
+            }
         }
 
         return array(
