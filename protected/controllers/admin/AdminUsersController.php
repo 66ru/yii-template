@@ -15,10 +15,10 @@ class AdminUsersController extends AdminController
     {
         return array(
             'email' => array(
-                'type' => TbInput::TYPE_TEXT,
+                'type' => 'textField',
             ),
             'authItems' => array(
-                'type' => TbInput::TYPE_DROPDOWN,
+                'type' => 'dropDownList',
                 'data' => EHtml::listData(AuthItem::model()),
                 'htmlOptions' => array(
                     'multiple' => true,
@@ -26,7 +26,7 @@ class AdminUsersController extends AdminController
                 ),
             ),
             'password' => array(
-                'type' => TbInput::TYPE_PASSWORD,
+                'type' => 'passwordField',
                 'htmlOptions' => array(
                     'hint' => $model->isNewRecord ? '' : 'Если ничего не вводить, то пароль не будет изменен.',
                 ),

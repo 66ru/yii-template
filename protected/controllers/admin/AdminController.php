@@ -214,7 +214,7 @@ class AdminController extends Controller
      * <code>
      * return array(
      *      'attributeName1' => array(
-     *          'type' => TbInput::TYPE_*,
+     *          'type' => 'textField', // One of methods in TbActiveForm::*Row
      *      ),
      *      array(
      *          'class' => 'yii.class.alias', // i.e. application.extensions.DependedInputWidget
@@ -225,7 +225,7 @@ class AdminController extends Controller
      *          'class' => 'yii.class.alias2',
      *      ),
      *      'attributeName3' => array(
-     *          'type' => TbInput::TYPE_DROPDOWN,
+     *          'type' => 'dropDownList', // Will be called TbActiveForm::DropDownListRow
      *          'data' => CHtml::listData(Client::model()->findAll(), 'id', 'name'),
      *          'htmlOptions' => array(
      *              'empty' => 'Empty',
