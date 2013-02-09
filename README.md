@@ -20,3 +20,4 @@ Current version is built for cyrillic language support. Future versions will sup
 * Removed `save` scenario from AdminController
 * Changed widgets configuration pattern (see AdminController::getEditFormElements)
 * DependInputScriptWidget now DependedAjaxInputWidget
+* Removed DependedInputWidget
