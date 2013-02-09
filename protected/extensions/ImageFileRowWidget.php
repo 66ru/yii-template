@@ -2,28 +2,44 @@
 
 class ImageFileRowWidget extends CWidget
 {
-    /** @var CActiveRecord */
+    /**
+     * @var CActiveRecord
+     */
     public $model;
 
-    /** @var string refers to fullsize image URL */
+    /**
+     * @var string refers to fullsize image URL
+     */
     public $attributeName;
 
-    /** @var TbActiveForm */
+    /**
+     * @var TbActiveForm
+     */
     public $form;
 
-    /** @var string refers to CUploadedFile instance */
+    /**
+     * @var string refers to CUploadedFile instance
+     */
     public $uploadedFileFieldName = '_image';
 
-    /** @var string refers to checkbox field */
+    /**
+     * @var string refers to checkbox field
+     */
     public $removeImageFieldName = '_removeImageFlag';
 
-    /** @var int */
+    /**
+     * @var int
+     */
     public $maxImageSize = 120;
 
-    /** @var null|string URL to thumbnail image. If empty, used fullsize image */
+    /**
+     * @var null|string URL to thumbnail image. If empty, used fullsize image
+     */
     public $thumbnailImageUrl = null;
 
-    /** @var string Hint will appended to file field */
+    /**
+     * @var string Hint will appended to file field
+     */
     public $hint = '';
 
     public function run()

@@ -8,9 +8,7 @@ return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => $params['appName'],
     'language' => 'ru',
-
     'preload' => array('log'),
-
     'import' => array(
         'application.models.*',
         'application.models.forms.*',
@@ -19,8 +17,7 @@ return array(
         'lib.CurlHelper.*',
         'lib.ImageHelper.*',
     ),
-
-    'modules' => array(// uncomment the following to enable the Gii tool
+    'modules' => array( // uncomment the following to enable the Gii tool
         /*
         'gii'=>array(
             'class'=>'system.gii.GiiModule',
@@ -30,7 +27,6 @@ return array(
         ),
         */
     ),
-
     // application components
     'components' => array(
         'user' => array(
@@ -82,6 +78,9 @@ return array(
                 'const' => 'TwigFunctions::constGet',
                 'static' => 'TwigFunctions::staticCall',
             ),
+            'filters' => array(
+                'unset' => 'TwigFunctions::_unset',
+            ),
         ),
         'bootstrap' => array(
             'class' => 'lib.bootstrap.components.Bootstrap',
@@ -107,8 +106,10 @@ return array(
             ),
         ),
     ),
-
-    'params' => array_merge($params, array(
-        'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
-    )),
+    'params' => array_merge(
+        $params,
+        array(
+            'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
+        )
+    ),
 );

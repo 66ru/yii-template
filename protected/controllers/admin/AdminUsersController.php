@@ -15,10 +15,10 @@ class AdminUsersController extends AdminController
     {
         return array(
             'email' => array(
-                'type' => 'textField'
+                'type' => TbInput::TYPE_TEXT,
             ),
             'authItems' => array(
-                'type' => 'dropDownList',
+                'type' => TbInput::TYPE_DROPDOWN,
                 'data' => EHtml::listData(AuthItem::model()),
                 'htmlOptions' => array(
                     'multiple' => true,
@@ -26,9 +26,8 @@ class AdminUsersController extends AdminController
                 ),
             ),
             'password' => array(
-                'type' => 'passwordField',
+                'type' => TbInput::TYPE_PASSWORD,
                 'htmlOptions' => array(
-                    'value' => '',
                     'hint' => $model->isNewRecord ? '' : 'Если ничего не вводить, то пароль не будет изменен.',
                 ),
             ),
@@ -43,17 +42,6 @@ class AdminUsersController extends AdminController
         );
 
         return $attributes;
-    }
-
-    /**
-     * @param User $model
-     */
-    public function beforeSave($model)
-    {
-        if (mb_strlen($model->password) < 32)
-            $model->password = md5($model->password . Yii::app()->params['md5Salt']);
-        
-        parent::beforeSave($model);
     }
 
     /**

@@ -13,7 +13,9 @@
 
 {% for attributeName, element in editFormElements %}
 	{% if element['class'] %}
-		{{ widget(element['class'], element['options']|default({})|merge({'model':model, 'attributeName':element['name'], 'form':form}) ) }}
+		{% set className = element['class'] %}
+		{% set element = element|unset('class') %}
+		{{ widget(className, element|default({})|merge({'model':model, 'attributeName':attributeName, 'form':form}) ) }}
 	{% elseif element['type'] %}
 		{% if element['data'] is defined %}
 			{{ attribute(form, element['type']~'Row', [ model, attributeName, element['data'], element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}

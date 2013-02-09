@@ -3,14 +3,16 @@
 /**
  * @property int id
  * @property string email
- * @property string password
+ * @property string $hashedPassword
+ *
+ * @property string $password
  */
 class User extends CActiveRecord
 {
     /**
      * @static
      * @param string $className
-     * @return User|CActiveRecord
+     * @return User
      */
     public static function model($className = __CLASS__)
     {
@@ -48,12 +50,20 @@ class User extends CActiveRecord
             array('email', 'required'),
             array('email', 'email'),
             array('email', 'unique'),
-            array('password', 'required', 'on' => 'insert'),
-            array('password', 'length', 'max' => 31, 'on' => 'insert,update'),
-            array('password', 'length', 'is' => 32, 'allowEmpty' => false, 'on' => 'save'),
+            array('password', 'safe'),
 
             array('email', 'safe', 'on' => 'search'),
         );
+    }
+
+    public function setPassword($value)
+    {
+        $this->hashedPassword = md5($value . Yii::app()->params['md5Salt']);
+    }
+
+    public function getPassword()
+    {
+        return null;
     }
 
     public function search()

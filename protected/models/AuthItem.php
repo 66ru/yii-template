@@ -35,7 +35,8 @@ class AuthItem extends CActiveRecord
 
     public function relations()
     {
-        return array(//			'authItemChild' => array(self::HAS_MANY, 'AuthItemChild', 'parent'),
+        return array(
+//			'authItemChild' => array(self::HAS_MANY, 'AuthItemChild', 'parent'),
 //			'childs' => array(self::HAS_MANY, 'AuthItem', array('child'=>'name'), 'through' => 'authItemChild'),
 //			'parent' => array(self::HAS_ONE, 'AuthItem', 'AuthItemChild(parent,child)'),
         );

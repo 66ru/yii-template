@@ -16,7 +16,7 @@ class CreateAuthItemsCommand extends CConsoleCommand
         if (empty($newAdmin))
             $newAdmin = new User();
         $newAdmin->email = $email;
-        $newAdmin->password = md5($password . Yii::app()->params['md5Salt']);
+        $newAdmin->password = $password;
         if (!$newAdmin->save())
             throw new CException(print_r($newAdmin->getErrors(), true));
 

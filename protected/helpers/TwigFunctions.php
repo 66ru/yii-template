@@ -7,7 +7,7 @@ class TwigFunctions
      * @param array $properties
      * @return string
      */
-    public function widget($class, $properties = array())
+    public static function widget($class, $properties = array())
     {
         $c = Yii::app()->getController();
         return $c->widget($class, $properties, true);
@@ -18,10 +18,17 @@ class TwigFunctions
      * @param string $property
      * @return mixed
      */
-    public function constGet($class, $property)
+    public static function constGet($class, $property)
     {
         $c = new ReflectionClass($class);
         return $c->getConstant($property);
+    }
+
+    public static function _unset($array, $elementName)
+    {
+        unset($array[$elementName]);
+
+        return $array;
     }
 
     /**
@@ -30,7 +37,7 @@ class TwigFunctions
      * @param array $params
      * @return mixed
      */
-    public function staticCall($class, $method, $params = array())
+    public static function staticCall($class, $method, $params = array())
     {
         return call_user_func_array($class . '::' . $method, $params);
     }

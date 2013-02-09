@@ -66,7 +66,6 @@ class AdminController extends Controller
                     $model->$relationName = $_POST[$this->modelName][$relationName];
             }
             $this->beforeSave($model);
-            $model->scenario = 'save';
             if ($model->save()) {
                 $this->afterSave($model);
                 $this->redirect(array($this->getId()));
@@ -176,22 +175,22 @@ class AdminController extends Controller
      * Example:
      * <code>
      *  return array(
-     *      'name' => array(
-     *          'type' => 'textField',
+     *      'attributeName1' => array(
+     *          'type' => TbInput::TYPE_*,
      *      ),
-     *      'clientId' => array(
-     *          'type' => 'dropDownList',
+     *      array(
+     *          'class' => 'yii.class.alias', // i.e. application.extensions.DependedInputWidget
+     *          'attribute1' => 'value1',
+     *          'attribute2' => 'value2',
+     *      ),
+     *      'attributeName2' => array(
+     *          'class' => 'yii.class.alias2',
+     *      ),
+     *      'attributeName3' => array(
+     *          'type' => TbInput::TYPE_DROPDOWN,
      *          'data' => CHtml::listData(Client::model()->findAll(), 'id', 'name'),
      *          'htmlOptions' => array(
      *              'empty' => 'Empty',
-     *          ),
-     *      ),
-     *      'logoUrl' => array(
-     *          'class' => 'ext.ImageFileRowWidget',
-     *          'options' => array(
-     *              'uploadedFileFieldName' => '_logo',
-     *              'removeImageFieldName' => '_removeLogoFlag',
-     *              'thumbnailImageUrl' => $model->getResizedLogoUrl(120, 120),
      *          ),
      *      ),
      *  );

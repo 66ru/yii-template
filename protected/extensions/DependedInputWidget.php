@@ -2,19 +2,30 @@
 
 class DependedInputWidget extends CWidget
 {
+    /**
+     * @var CActiveRecord
+     */
     public $model;
+
+    /**
+     * @var string not used
+     */
     public $attributeName;
+
+    /**
+     * @var TbActiveForm
+     */
     public $form;
 
     /**
      * @var null|string master element Name. Onchange event will bind on it
      */
-    public $masterElementName = null;
+    public $masterAttributeName = null;
 
     /**
      * @var null|string html data, loaded from url will assigned to this element
      */
-    public $dependedElementName = null;
+    public $dependedAttributeName = null;
 
     /**
      * @var array id=>array(). Depended values to master values mapping. Id - master value, array contains depended ids
@@ -23,16 +34,17 @@ class DependedInputWidget extends CWidget
 
     public function run()
     {
-        if (!empty($this->masterElementName) &&
-            !empty($this->dependedElementName) &&
+        if (!empty($this->masterAttributeName) &&
+            !empty($this->dependedAttributeName) &&
             !empty($this->model)
         ) {
             /** @var $app CWebApplication */
             $app = Yii::app();
 
-            $app->clientScript->registerScript($this->dependedElementName . '-map-' . $this->masterElementName, '
-				var masterElementId = "' . EHtml::resolveId($this->model, $this->masterElementName) . '";
-				var dependedElementId = "' . EHtml::resolveId($this->model, $this->dependedElementName) . '";
+            $app->clientScript->registerScript(
+                $this->dependedAttributeName . '-map-' . $this->masterAttributeName,
+                'var masterElementId = "' . EHtml::resolveId($this->model, $this->masterAttributeName) . '";
+				var dependedElementId = "' . EHtml::resolveId($this->model, $this->dependedAttributeName) . '";
 				var valuesMap = ' . json_encode($this->valuesMap) . ';
 				
 				$("#"+masterElementId).bind("change", function() {
@@ -46,7 +58,8 @@ class DependedInputWidget extends CWidget
 								newValues = newValues.concat( $d.val() );
 							$d.val(newValues);
 						}
-				})');
+				})'
+            );
         }
     }
 }
