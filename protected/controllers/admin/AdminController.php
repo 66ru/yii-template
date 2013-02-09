@@ -4,16 +4,23 @@ Yii::app()->getComponent('bootstrap')->register();
 
 class AdminController extends Controller
 {
-    /** @var string Name of managed model */
+    /**
+     * @var string Name of managed model
+     */
     public $modelName = '';
     /**
      * @var array Склонение должно соответствовать словам соответственно: (добавить .., редактирование .., список ..)
      */
     public $modelHumanTitle = array('модель', 'модели', 'моделей');
 
-    /** @var string Allowed actions. Separate by comma, without spaces. Possible values: add,view,edit,delete */
+    /**
+     * @var string Allowed actions. Separate by comma, without spaces. Possible values: add,view,edit,delete
+     */
     public $allowedActions = 'add,edit,delete';
 
+    /**
+     * @var string One of AdminController->allowedActions
+     */
     public $defaultAction = 'list';
 
     public function filters()
@@ -42,7 +49,10 @@ class AdminController extends Controller
         $this->actionEdit(true);
     }
 
-    public function actionEdit($createNew = null)
+    /**
+     * @param bool $createNew
+     */
+    public function actionEdit($createNew = false)
     {
         if ($createNew) {
             $model = new $this->modelName();
@@ -89,14 +99,22 @@ class AdminController extends Controller
         ));
     }
 
+    /**
+     * internal
+     * @return CActiveRecord
+     * @throws CHttpException
+     */
     public function loadModel()
     {
         $model = null;
-        if (isset($_GET['id']))
+        if (isset($_GET['id'])) {
             $model = CActiveRecord::model($this->modelName)->findbyPk($_GET['id']);
-        if ($model === null)
+        }
+        if ($model === null) {
             throw new CHttpException(404);
-        return $model;
+        } else {
+            return $model;
+        }
     }
 
     public function actionIndex()
@@ -133,6 +151,21 @@ class AdminController extends Controller
             throw new CHttpException(400);
     }
 
+    /**
+     * Example:
+     * <code>
+     * return array(
+     *     'attributeName1',
+     *     array(
+     *         'class' => 'alias.to.children.of.CGridColumn',
+     *         'property1' => 'value',
+     *         'property2' => 'value',
+     *     ),
+     *     'attributeName2',
+     * );
+     * </code>
+     * @return array
+     */
     public function getTableColumns()
     {
         $model = CActiveRecord::model($this->modelName);
@@ -145,6 +178,11 @@ class AdminController extends Controller
         return $columns;
     }
 
+    /**
+     * internal
+     * returns columns with buttons such as edit, view, delete
+     * @return array
+     */
     public function getButtonsColumn()
     {
         $allowedActions = explode(',', $this->allowedActions);
@@ -174,7 +212,7 @@ class AdminController extends Controller
     /**
      * Example:
      * <code>
-     *  return array(
+     * return array(
      *      'attributeName1' => array(
      *          'type' => TbInput::TYPE_*,
      *      ),

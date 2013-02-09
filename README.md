@@ -16,3 +16,7 @@ Current version is built for cyrillic language support. Future versions will sup
 
 ## Backwards incompatability changes
 * Converted Boot* class names to Tb* class names
+* Changed managing user passwords. Now there are separate magic password field and autofilled hashedPassword field
+* Removed `save` scenario from AdminController
+* Changed widgets configuration pattern (see AdminController::getEditFormElements)
+* DependInputScriptWidget now DependedAjaxInputWidget

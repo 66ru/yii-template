@@ -2,16 +2,26 @@
 
 class DateRangeRowWidget extends CWidget
 {
-    /** @var CActiveRecord */
+    /**
+     * internal
+     * @var CActiveRecord
+     */
     public $model;
 
-    /** @var string dateFrom */
+    /**
+     * @var string dateFrom
+     */
     public $attributeName;
 
-    /** @var string dateTo */
+    /**
+     * @var string dateTo
+     */
     public $attributeDateTo;
 
-    /** @var TbActiveForm */
+    /**
+     * inernal
+     * @var TbActiveForm
+     */
     public $form;
 
     public function init()

@@ -1,18 +1,49 @@
 <?php
 
+/**
+ * Display image from url at edit page
+ * Supports thumbnails and image editing (add, update, remove)
+ *
+ * Model must contains following attributes:
+ * <code>
+ * public $_image; // CUploadedFile
+ * public $_removeImageFlag; // bool
+ * </code>
+ * And controller must implement following code:
+ * <code>
+ * public function beforeSave($model)
+ * {
+ *     if ($model->_removeImageFlag) {
+ *         // removing file
+ *         // set attribute to null
+ *     }
+ *     $model->_image = CUploadedFile::getInstance($model, '_image');
+ *     if ($model->validate() && !empty($model->_image)) {
+ *         // saving file from CUploadFile instance $model->_image
+ *     }
+ *
+ *     parent::beforeSave($model);
+ * }
+ * </code>
+ *
+ * @see AdminController::getEditFormElements
+ */
 class ImageFileRowWidget extends CWidget
 {
     /**
+     * internal
      * @var CActiveRecord
      */
     public $model;
 
     /**
+     * internal
      * @var string refers to fullsize image URL
      */
     public $attributeName;
 
     /**
+     * internal
      * @var TbActiveForm
      */
     public $form;
