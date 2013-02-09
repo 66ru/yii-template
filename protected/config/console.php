@@ -6,9 +6,7 @@ $params = require('params.php');
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => $params['appName'],
-
     'preload' => array('log'),
-
     'import' => array(
         'application.models.*',
         'application.models.forms.*',
@@ -17,7 +15,6 @@ return array(
         'lib.CurlHelper.*',
         'lib.ImageHelper.*',
     ),
-
     // application components
     'components' => array(
         'db' => array(
@@ -41,8 +38,16 @@ return array(
             ),
         ),
     ),
-
-    'params' => array_merge($params, array(
-        'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
-    )),
+    'params' => array_merge(
+        $params,
+        array(
+            'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
+        )
+    ),
+    'commandMap' => array(
+        'migrate' => array(
+            'class' => 'system.cli.commands.MigrateCommand',
+            'migrationTable' => 'migration',
+        ),
+    ),
 );
