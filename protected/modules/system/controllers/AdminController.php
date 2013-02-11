@@ -23,6 +23,15 @@ class AdminController extends Controller
      */
     public $defaultAction = 'list';
 
+    public function init()
+    {
+        parent::init();
+
+        if (get_called_class() == __CLASS__) {
+            $this->defaultAction = 'index';
+        }
+    }
+
     public function filters()
     {
         return array(
@@ -44,6 +53,11 @@ class AdminController extends Controller
                 'users' => array('*')
             ),
         );
+    }
+
+    public function actionIndex()
+    {
+        $this->render('/index');
     }
 
     public function actionAdd()
@@ -88,7 +102,7 @@ class AdminController extends Controller
 
         $this->beforeEdit($model);
         $this->render(
-            '//admin/crud/' . ($createNew ? 'add' : 'edit'),
+            '/crud/' . ($createNew ? 'add' : 'edit'),
             array(
                 'model' => $model,
                 'editFormElements' => $this->getEditFormElements($model),
@@ -101,35 +115,12 @@ class AdminController extends Controller
         $model = $this->loadModel();
 
         $this->render(
-            '//admin/crud/view',
+            '/crud/view',
             array(
                 'model' => $model,
                 'editFormElements' => $this->getEditFormElements($model),
             )
         );
-    }
-
-    /**
-     * internal
-     * @return CActiveRecord
-     * @throws CHttpException
-     */
-    public function loadModel()
-    {
-        $model = null;
-        if (isset($_GET['id'])) {
-            $model = CActiveRecord::model($this->modelName)->findbyPk($_GET['id']);
-        }
-        if ($model === null) {
-            throw new CHttpException(404);
-        } else {
-            return $model;
-        }
-    }
-
-    public function actionIndex()
-    {
-        $this->render('//admin/index');
     }
 
     public function actionList()
@@ -143,7 +134,7 @@ class AdminController extends Controller
         }
 
         $this->render(
-            '//admin/crud/list',
+            '/crud/list',
             array(
                 'model' => $model,
                 'columns' => $this->getTableColumns(),
@@ -164,6 +155,24 @@ class AdminController extends Controller
             }
         } else {
             throw new CHttpException(400);
+        }
+    }
+
+    /**
+     * internal
+     * @return CActiveRecord
+     * @throws CHttpException
+     */
+    public function loadModel()
+    {
+        $model = null;
+        if (isset($_GET['id'])) {
+            $model = CActiveRecord::model($this->modelName)->findbyPk($_GET['id']);
+        }
+        if ($model === null) {
+            throw new CHttpException(404);
+        } else {
+            return $model;
         }
     }
 

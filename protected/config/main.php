@@ -16,18 +16,9 @@ return array(
         'application.helpers.*',
         'lib.CurlHelper.*',
         'lib.ImageHelper.*',
+        'application.modules.system.controllers.*',
     ),
-    'modules' => array( // uncomment the following to enable the Gii tool
-        /*
-        'gii'=>array(
-            'class'=>'system.gii.GiiModule',
-            'password'=>'Enter Your Password Here',
-            // If removed, Gii defaults to localhost only. Edit carefully to taste.
-            'ipFilters'=>array('127.0.0.1','::1'),
-        ),
-        */
-    ),
-    // application components
+    'modules' => array('system'),
     'components' => array(
         'user' => array(
             // enable cookie-based authentication
@@ -40,13 +31,10 @@ return array(
             'showScriptName' => false,
             'rules' => array(
                 '/' => 'site/index',
-                'admin/' => 'admin/admin/index',
-                'admin/<controller:\w+>/' => 'admin/admin<controller>',
-                'admin/<controller:\w+>/<action:\w+>/' => 'admin/admin<controller>/<action>',
-                '<_a:(login|logout|error)>/' => 'site/<_a>',
-//				'<controller:\w+>/<id:\d+>'=>'<controller>/view',
-//				'<controller:\w+>/<action:\w+>/<id:\d+>'=>'<controller>/<action>',
-//				'<controller:\w+>/<action:\w+>'=>'<controller>/<action>',
+                'admin/' => 'system',
+                'admin/<module:\w+>/' => '<module>',
+                'admin/<module:\w+>/<controller:\w+>/' => '<module>/admin<controller>',
+                'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
             ),
         ),
         'db' => array(

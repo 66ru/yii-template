@@ -1,7 +1,5 @@
 <?php
 
-Yii::import('application.controllers.admin.*');
-
 class AdminUsersController extends AdminController
 {
     public $modelName = 'User';
