@@ -16,7 +16,7 @@ return array(
         'application.helpers.*',
         'lib.CurlHelper.*',
         'lib.ImageHelper.*',
-        'application.modules.system.controllers.*',
+        'ext.mAdmin.*',
     ),
     'modules' => array('system'),
     'components' => array(

@@ -1,6 +1,6 @@
 <?php
 
-class AdminUsersController extends AdminController
+class AdminUsersController extends MAdminController
 {
     public $modelName = 'User';
     public $modelHumanTitle = array('пользователя', 'пользователя', 'пользователей');
