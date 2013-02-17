@@ -1,6 +1,6 @@
 <?php
 
-Yii::app()->getComponent('bootstrap')->register();
+Yii::app()->getComponent('bootstrap');//->register();
 
 class MAdminController extends CExtController
 {

@@ -1,7 +1,6 @@
 <?php
 
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
-Yii::setPathOfAlias('bootstrap', realpath(__DIR__ . '/../../lib/bootstrap'));
 
 $params = require('params.php');
 return array(
@@ -71,7 +70,8 @@ return array(
             ),
         ),
         'bootstrap' => array(
-            'class' => 'lib.bootstrap.components.Bootstrap',
+            'class' => 'lib.booster.components.Bootstrap',
+            'responsiveCss' => true,
         ),
         'errorHandler' => array(
             'errorAction' => 'site/error',
