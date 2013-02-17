@@ -38,7 +38,7 @@
 	{{ widget('bootstrap.widgets.TbButton', {
 		'icon' : 'remove',
 		'label' : model.isNewRecord ? 'Не создавать' : 'Отменить изменения',
-		'url' : ['/'~this.getId()]
+		'url' : ['/'~this.uniqueId]
 	}) }}
 </div>
 
