@@ -51,6 +51,7 @@ class User extends CActiveRecord
             array('email', 'email'),
             array('email', 'unique'),
             array('password', 'safe'),
+            array('password', 'required', 'on' => 'insert'),
 
             array('email', 'safe', 'on' => 'search'),
         );
