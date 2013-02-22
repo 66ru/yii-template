@@ -28,7 +28,7 @@
  *
  * @see AdminController::getEditFormElements
  */
-class ImageFileRowWidget extends CWidget
+class ImageFileRowWidget extends CInputWidget
 {
     /**
      * internal
@@ -40,7 +40,7 @@ class ImageFileRowWidget extends CWidget
      * internal
      * @var string refers to fullsize image URL
      */
-    public $attributeName;
+    public $attribute;
 
     /**
      * internal
@@ -76,7 +76,7 @@ class ImageFileRowWidget extends CWidget
     public function run()
     {
         $model = $this->model;
-        $attributeName = $this->attributeName;
+        $attributeName = $this->attribute;
         $form = $this->form;
 
         $htmlOptions = array();

@@ -9,6 +9,13 @@ class TwigFunctions
      */
     public static function widget($class, $properties = array())
     {
+        $className = Yii::import($class, true);
+        foreach ($properties as $propertyName => $value) {
+            if (!property_exists($className, $propertyName)) {
+                unset($properties[$propertyName]);
+            }
+        }
+
         $c = Yii::app()->getController();
         return $c->widget($class, $properties, true);
     }

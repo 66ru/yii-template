@@ -17,7 +17,7 @@ class MAdminController extends CExtController
     public $modelHumanTitle = array('модель', 'модели', 'моделей');
 
     /**
-     * @var string Allowed actions. Separate by comma, without spaces. Possible values: add,view,edit,delete
+     * @var string|string[] Allowed actions. Array or comma separated string. Possible values: add,view,edit,delete
      */
     public $allowedActions = 'add,edit,delete';
 
@@ -45,9 +45,26 @@ class MAdminController extends CExtController
         );
     }
 
+    private function getAllowedActions()
+    {
+        if (is_array($this->allowedActions)) {
+            return $this->allowedActions;
+        } else {
+            $res = explode(',', $this->allowedActions);
+            array_walk(
+                $res,
+                function (&$value) {
+                    $value = trim($value);
+                }
+            );
+
+            return $res;
+        }
+    }
+
     public function accessRules()
     {
-        $allowedActions = array_merge(explode(',', $this->allowedActions), array('index', 'list'));
+        $allowedActions = array_merge($this->getAllowedActions(), array('index', 'list'));
         return array(
             array(
                 'allow',

@@ -9,6 +9,8 @@
       <excludeFolder url="file://$MODULE_DIR$/lib/yii/framework/gii" />
       <excludeFolder url="file://$MODULE_DIR$/lib/yii/requirements" />
       <excludeFolder url="file://$MODULE_DIR$/lib/yii/tests" />
+      <excludeFolder url="file://$MODULE_DIR$/protected/runtime/twig_cache" />
+      <excludeFolder url="file://$MODULE_DIR$/www/assets" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />

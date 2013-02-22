@@ -15,7 +15,7 @@
 	{% if element['class'] %}
 		{% set className = element['class'] %}
 		{% set element = element|unset('class') %}
-		{{ widget(className, element|default({})|merge({'model':model, 'attributeName':attributeName, 'form':form}) ) }}
+		{{ widget(className, element|default({})|merge({'model':model, 'attribute':attributeName, 'form':form}) ) }}
 	{% elseif element['type'] %}
 		{% if element['data'] is defined %}
 			{{ attribute(form, element['type']~'Row', [ model, attributeName, element['data'], element['htmlOptions'] ? element['htmlOptions'] : [] ])|raw }}

@@ -72,6 +72,7 @@ return array(
         'bootstrap' => array(
             'class' => 'lib.booster.components.Bootstrap',
             'responsiveCss' => true,
+            'jqueryCss' => false,
         ),
         'errorHandler' => array(
             'errorAction' => 'site/error',

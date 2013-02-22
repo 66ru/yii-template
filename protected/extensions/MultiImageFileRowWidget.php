@@ -36,7 +36,7 @@
  *
  * @see AdminController::getEditFormElements
  */
-class MultiImageFileRowWidget extends CWidget
+class MultiImageFileRowWidget extends CInputWidget
 {
     /**
      * internal
@@ -47,7 +47,7 @@ class MultiImageFileRowWidget extends CWidget
     /**
      * @var string refers to array with image URLs
      */
-    public $attributeName;
+    public $attribute;
 
     /**
      * internal
@@ -87,7 +87,7 @@ class MultiImageFileRowWidget extends CWidget
     public function run()
     {
         $model = $this->model;
-        $attributeName = $this->attributeName;
+        $attributeName = $this->attribute;
         $form = $this->form;
 
         echo '<style type="text/css">
@@ -95,7 +95,7 @@ class MultiImageFileRowWidget extends CWidget
 			margin-bottom: 5px;
 		}
 		</style>';
-        echo '<div class="controls-group">';
+        echo '<div class="control-group">';
         $htmlOptions['class'] = 'control-label';
         echo CHtml::activeLabelEx($model, $attributeName, $htmlOptions);
         if (is_array($model->$attributeName)) {

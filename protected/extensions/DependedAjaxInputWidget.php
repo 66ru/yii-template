@@ -4,7 +4,7 @@
  * Filling $dependedElementId element with data from $getDataUrl on $masterAttributeName change.
  * $masterAttributeName value will be appended to $getDataUrl
  */
-class DependedAjaxInputWidget extends CWidget
+class DependedAjaxInputWidget extends CInputWidget
 {
     /**
      * internal
@@ -16,7 +16,7 @@ class DependedAjaxInputWidget extends CWidget
      * internal
      * @var string not used
      */
-    public $attributeName;
+    public $attribute;
 
     /**
      * internal
