@@ -34,7 +34,7 @@ class FileSystem extends CComponent
             $this->storageUrl = '/storage/';
         }
         if (!file_exists($this->storagePath)) {
-            mkdir($this->storagePath, 0777, true);
+            mkdir($this->storagePath, 0775, true);
         }
         $this->storagePath = realpath($this->storagePath) . '/';
         if (!is_dir($this->storagePath)) {
@@ -98,7 +98,7 @@ class FileSystem extends CComponent
         $publishedFileName = $this->getFilePath($uid);
         $newDirName = pathinfo($publishedFileName, PATHINFO_DIRNAME);
         if (!file_exists($newDirName)) {
-            mkdir($newDirName, 0777, true);
+            mkdir($newDirName, 0775, true);
         }
 
         copy($fileName, $publishedFileName);

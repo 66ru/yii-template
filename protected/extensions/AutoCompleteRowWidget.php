@@ -12,7 +12,7 @@ class AutoCompleteRowWidget extends CJuiAutoComplete
 
     /**
      * internal
-     * @var string refers to fullsize image URL
+     * @var string
      */
     public $attribute;
 
@@ -34,7 +34,6 @@ class AutoCompleteRowWidget extends CJuiAutoComplete
         echo "</div>";
 
         echo "</div>";
-
     }
 
 }

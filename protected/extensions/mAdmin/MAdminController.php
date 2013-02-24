@@ -1,6 +1,6 @@
 <?php
 
-Yii::app()->getComponent('bootstrap');//->register();
+Yii::app()->getComponent('bootstrap');
 
 class MAdminController extends CExtController
 {
@@ -26,9 +26,18 @@ class MAdminController extends CExtController
      */
     public $defaultAction = 'list';
 
+    /**
+     * @var string
+     */
+    public $assetsUrl;
+
     public function init()
     {
         parent::init();
+
+        /** @var $app CWebApplication */
+        $app = Yii::app();
+        $this->assetsUrl = $app->assetManager->publish(__DIR__.'/assets');
 
         $this->viewPath = __DIR__ . '/views';
         /** @var $yiiTwigRenderer ETwigViewRenderer */
@@ -119,7 +128,7 @@ class MAdminController extends CExtController
             $this->beforeSave($model);
             if ($model->save()) {
                 $this->afterSave($model);
-                $this->redirect(array($this->getId()));
+                $this->redirect(array('/'.$this->getUniqueId()));
             }
         }
 

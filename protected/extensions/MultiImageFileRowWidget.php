@@ -87,7 +87,7 @@ class MultiImageFileRowWidget extends CInputWidget
     public function run()
     {
         $model = $this->model;
-        $attributeName = $this->attribute;
+        $attribute = $this->attribute;
         $form = $this->form;
 
         echo '<style type="text/css">
@@ -97,9 +97,9 @@ class MultiImageFileRowWidget extends CInputWidget
 		</style>';
         echo '<div class="control-group">';
         $htmlOptions['class'] = 'control-label';
-        echo CHtml::activeLabelEx($model, $attributeName, $htmlOptions);
-        if (is_array($model->$attributeName)) {
-            foreach ($model->$attributeName as $id => $value) {
+        echo CHtml::activeLabelEx($model, $attribute, $htmlOptions);
+        if (is_array($model->$attribute)) {
+            foreach ($model->$attribute as $id => $value) {
                 $thumbnail = $value;
                 if (!empty($this->thumbnailImage)) {
                     $thumbnail = $this->evaluateExpression(
@@ -128,6 +128,9 @@ class MultiImageFileRowWidget extends CInputWidget
                 echo '</label></div>';
             }
         }
+        echo '<div class="controls">';
+        echo $this->form->error($model, $this->uploadedFileFieldName);
+        echo '</div>';
 
         $fileUploadTemplate = '<div class="controls">';
         $fileUploadTemplate .= CHtml::activeFileField($model, $this->uploadedFileFieldName . "[]");
