@@ -9,6 +9,11 @@
  * public $_image; // CUploadedFile[]
  * public $_removeImageFlag; // bool[]
  * </code>
+ * With these sample validation rules:
+ * <code>
+ * array('_removeImageFlag', 'safe'),
+ * array('_image', 'file', 'types' => 'jpg, png, gif, jpeg', 'maxFiles' => 10, 'allowEmpty' => true),
+ * </code>
  * And controller must implement following code:
  * <code>
  * public function beforeSave($model)
@@ -16,16 +21,17 @@
  *     if (is_array($model->_removeImageFlag)) {
  *         foreach ($model->_removeImageFlag as $id => $remove) {
  *             if ($remove) {
- *                 // removing file
- *                 // unsetting attribute
+ *                 // deleting file
+ *                 // removing file id from attribute
  *             }
  *         }
  *     }
- *     if (is_array($model->_photo)) {
- *         foreach ($model->_photo as $key => $file) {
- *             $file = CUploadedFile::getInstance($model, '_photo[' . $key . ']');
- *             if (!is_null($file)) {
+ *     if (is_array($model->_image)) {
+ *         foreach ($model->_image as $key => $file) {
+ *             $file = CUploadedFile::getInstance($model, '_image[' . $key . ']');
+ *             if (!is_null($file) && !$file->error) {
  *                 // saving file from CUploadFile instance $file
+ *                 // adding file id to attribute
  *             }
  *         }
  *     }
