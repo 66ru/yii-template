@@ -9,6 +9,11 @@
  * public $_image; // CUploadedFile[]
  * public $_removeImageFlag; // bool[]
  * </code>
+ * With these sample validation rules:
+ * <code>
+ * array('_removeImageFlag', 'safe'),
+ * array('_image', 'file', 'types' => 'jpg, png, gif, jpeg', 'maxFiles' => 10, 'allowEmpty' => true),
+ * </code>
  * And controller must implement following code:
  * <code>
  * public function beforeSave($model)
@@ -16,16 +21,17 @@
  *     if (is_array($model->_removeImageFlag)) {
  *         foreach ($model->_removeImageFlag as $id => $remove) {
  *             if ($remove) {
- *                 // removing file
- *                 // unsetting attribute
+ *                 // deleting file
+ *                 // removing file id from attribute
  *             }
  *         }
  *     }
- *     if (is_array($model->_photo)) {
- *         foreach ($model->_photo as $key => $file) {
- *             $file = CUploadedFile::getInstance($model, '_photo[' . $key . ']');
- *             if (!is_null($file)) {
+ *     if (is_array($model->_image)) {
+ *         foreach ($model->_image as $key => $file) {
+ *             $file = CUploadedFile::getInstance($model, '_image[' . $key . ']');
+ *             if (!is_null($file) && !$file->error) {
  *                 // saving file from CUploadFile instance $file
+ *                 // adding file id to attribute
  *             }
  *         }
  *     }
@@ -87,7 +93,7 @@ class MultiImageFileRowWidget extends CInputWidget
     public function run()
     {
         $model = $this->model;
-        $attributeName = $this->attribute;
+        $attribute = $this->attribute;
         $form = $this->form;
 
         echo '<style type="text/css">
@@ -97,9 +103,9 @@ class MultiImageFileRowWidget extends CInputWidget
 		</style>';
         echo '<div class="control-group">';
         $htmlOptions['class'] = 'control-label';
-        echo CHtml::activeLabelEx($model, $attributeName, $htmlOptions);
-        if (is_array($model->$attributeName)) {
-            foreach ($model->$attributeName as $id => $value) {
+        echo CHtml::activeLabelEx($model, $attribute, $htmlOptions);
+        if (is_array($model->$attribute)) {
+            foreach ($model->$attribute as $id => $value) {
                 $thumbnail = $value;
                 if (!empty($this->thumbnailImage)) {
                     $thumbnail = $this->evaluateExpression(
@@ -128,6 +134,9 @@ class MultiImageFileRowWidget extends CInputWidget
                 echo '</label></div>';
             }
         }
+        echo '<div class="controls">';
+        echo $this->form->error($model, $this->uploadedFileFieldName);
+        echo '</div>';
 
         $fileUploadTemplate = '<div class="controls">';
         $fileUploadTemplate .= CHtml::activeFileField($model, $this->uploadedFileFieldName . "[]");

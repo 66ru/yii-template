@@ -123,7 +123,7 @@ class Image_ImageMagick_Driver extends Image_Driver {
 		// Set the IM geometry based on the properties
 		$geometry = escapeshellarg($prop['width'].'x'.$prop['height'].'+'.$prop['left'].'+'.$prop['top']);
 
-		if ($error = exec(escapeshellcmd($this->dir.'convert'.$this->ext).' -crop '.$geometry.' '.$this->cmd_image.' '.$this->cmd_image))
+		if ($error = exec(escapeshellcmd($this->dir.'convert'.$this->ext).' -auto-orient -crop '.$geometry.' '.$this->cmd_image.' '.$this->cmd_image))
 		{
 			$this->errors[] = $error;
 			return FALSE;
@@ -165,7 +165,7 @@ class Image_ImageMagick_Driver extends Image_Driver {
 		}
 
 		// Use "convert" to change the width and height
-		if ($error = exec(escapeshellcmd($this->dir.'convert'.$this->ext).' -resize '.$dim.' '.$this->cmd_image.' '.$this->cmd_image))
+		if ($error = exec(escapeshellcmd($this->dir.'convert'.$this->ext).' -auto-orient -resize '.$dim.' '.$this->cmd_image.' '.$this->cmd_image))
 		{
 			$this->errors[] = $error;
 			return FALSE;
@@ -176,7 +176,7 @@ class Image_ImageMagick_Driver extends Image_Driver {
 
 	public function rotate($amt)
 	{
-		if ($error = exec(escapeshellcmd($this->dir.'convert'.$this->ext).' -rotate '.escapeshellarg($amt).' -background transparent '.$this->cmd_image.' '.$this->cmd_image))
+		if ($error = exec(escapeshellcmd($this->dir.'convert'.$this->ext).' -auto-orient -rotate '.escapeshellarg($amt).' -background transparent '.$this->cmd_image.' '.$this->cmd_image))
 		{
 			$this->errors[] = $error;
 			return FALSE;
