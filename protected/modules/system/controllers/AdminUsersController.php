@@ -16,11 +16,11 @@ class AdminUsersController extends MAdminController
                 'type' => 'textField',
             ),
             'authItems' => array(
-                'type' => 'dropDownList',
-                'data' => EHtml::listData(AuthItem::model()),
+                'type' => 'select2',
                 'htmlOptions' => array(
+                    'data' => EHtml::listData(AuthItem::model()),
                     'multiple' => true,
-                    'size' => 20,
+                    'class' => 'input-xlarge',
                 ),
             ),
             'password' => array(
