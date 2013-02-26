@@ -50,11 +50,16 @@ class User extends CActiveRecord
             array('email', 'required'),
             array('email', 'email'),
             array('email', 'unique'),
-            array('password', 'safe'),
-            array('password', 'required', 'on' => 'insert'),
+            array('password', 'PasswordIsSetValidator'),
 
             array('email', 'safe', 'on' => 'search'),
         );
+    }
+
+    public function PasswordIsSetValidator($attribute, $params)
+    {
+        if (empty($this->hashedPassword))
+            $this->addError($attribute, 'Необходимо ввести пароль');
     }
 
     public function getPassword()
