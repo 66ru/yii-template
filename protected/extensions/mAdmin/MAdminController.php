@@ -1,6 +1,6 @@
 <?php
 
-Yii::app()->getComponent('bootstrap');//->register();
+Yii::app()->getComponent('bootstrap');
 
 class MAdminController extends CExtController
 {
@@ -26,9 +26,18 @@ class MAdminController extends CExtController
      */
     public $defaultAction = 'list';
 
+    /**
+     * @var string
+     */
+    public $assetsUrl;
+
     public function init()
     {
         parent::init();
+
+        /** @var $app CWebApplication */
+        $app = Yii::app();
+        $this->assetsUrl = $app->assetManager->publish(__DIR__ . '/assets');
 
         $this->viewPath = __DIR__ . '/views';
         /** @var $yiiTwigRenderer ETwigViewRenderer */
@@ -109,17 +118,22 @@ class MAdminController extends CExtController
                 }
             }
 
-            $this->beforeSetAttributes($model, $_POST[$this->modelName]);
-            $model->setAttributes($_POST[$this->modelName]);
-            foreach ($model->relations() as $relationName => $relationAttributes) {
-                if (isset($_POST[$this->modelName][$relationName])) {
-                    $model->$relationName = $_POST[$this->modelName][$relationName];
+            $modifiedRelations = $this->setAttributes($model);
+
+            $this->beforeSave($model);
+            if ($validated = $model->validate()) {
+                foreach ($modifiedRelations as $relationName) {
+                    $validated = $validated && $model->$relationName->validate();
                 }
             }
-            $this->beforeSave($model);
-            if ($model->save()) {
+            if ($validated) {
+                $model->save(false);
+                foreach ($modifiedRelations as $relationName) {
+                    $model->$relationName->save(false);
+                }
+
                 $this->afterSave($model);
-                $this->redirect(array($this->getId()));
+                $this->redirect(array('/' . $this->getUniqueId()));
             }
         }
 
@@ -131,6 +145,32 @@ class MAdminController extends CExtController
                 'editFormElements' => $this->getEditFormElements($model),
             )
         );
+    }
+
+    /**
+     * @param CActiveRecord $model
+     * @return string[] modified relations
+     */
+    private function setAttributes($model)
+    {
+        $modifiedRelations = array();
+        $modelName = get_class($model);
+        $this->beforeSetAttributes($model, $_POST[$modelName]);
+        $model->setAttributes($_POST[$modelName]);
+        foreach ($model->relations() as $relationName => $relationAttributes) {
+            // process MANY_MANY relations
+            if (isset($_POST[$modelName][$relationName])) {
+                $model->$relationName = $_POST[$modelName][$relationName];
+            }
+
+            // process HAS_ONE or BELONGS_TO relations
+            if (isset($_POST[$relationAttributes[1]])) {
+                $modifiedRelations[] = $relationName;
+                $modifiedRelations += $this->setAttributes($model->$relationName);
+            }
+        }
+
+        return $modifiedRelations;
     }
 
     public function actionView()
@@ -209,9 +249,15 @@ class MAdminController extends CExtController
      *         'property1' => 'value',
      *         'property2' => 'value',
      *     ),
-     *     'attributeName2',
+     *     array(
+     *         'name' => 'attributeName2',
+     *         'filter' => array(1 => 'Value 1', 2 => 'Value 2'),
+     *         'sortable' => false,
+     *         'value' => '$data->getHumanAttributeText()',
+     *     ),
      * );
      * </code>
+     * @see CGridView::$columns
      * @return array
      */
     public function getTableColumns()
@@ -271,6 +317,7 @@ class MAdminController extends CExtController
      *          'attribute1' => 'value1',
      *          'attribute2' => 'value2',
      *      ),
+     *      '<h1>Raw html</h1>',
      *      'attributeName2' => array(
      *          'class' => 'yii.class.alias2',
      *      ),
@@ -280,6 +327,9 @@ class MAdminController extends CExtController
      *          'htmlOptions' => array(
      *              'empty' => 'Empty',
      *          ),
+     *      ),
+     *      'relationName' => array(
+     *          'rows' => array( same structure as root array ),
      *      ),
      *  );
      * </code>
