@@ -1,23 +1,78 @@
 {% extends 'layouts/admin.twig' %}
 
 {% block content %}
-    <h1>Список {{ this.modelHumanTitle[2] }}</h1>
+    <h1>{{ this.actionsTitles[2] }} {{ this.modelHumanTitle[2] }}</h1>
+
+    {% if advancedFilters %}
+        <div class="row-fluid">
+            <div class="span9">
+    {% endif %}
 
     {% if canAdd %}
         {{ widget('bootstrap.widgets.TbButton', {
-        'buttonType' : 'link',
-        'type' : 'primary',
-        'icon' : 'plus white',
-        'label' : 'Добавить '~this.modelHumanTitle[0],
-        'url' : ['add'],
+            'buttonType' : 'link',
+            'type' : 'danger',
+            'icon' : 'plus white',
+            'label' : this.buttonTitles[0]~' '~this.modelHumanTitle[0],
+            'url' : ['add'],
         }) }}
     {% endif %}
 
-    {{ widget('bootstrap.widgets.TbGridView', {
-    'type' : 'condensed striped',
-    'dataProvider' : model.search(),
-    'filter' : model,
-    'columns' : columns,
-    }) }}
+    {% set gridOptions = {
+        'type' : 'condensed striped',
+        'dataProvider' : model.search(),
+        'filter' : model,
+        'columns' : columns,
+    } %}
+
+    {% if advancedFilters %}
+        {% set filterForm = static('TbFilterForm','createForm', [
+            advancedFilters,
+            model,
+            {
+                'htmlOptions' : {
+                    'class' : 'well',
+                },
+            }
+        ]) %}
+        {% set filterFormHtml = filterForm.render() %}
+        {% set gridOptions = gridOptions|merge({
+            'ajaxUpdate' : filterForm.activeFormWidget.id,
+            'beforeAjaxUpdate' : 'js:function(id, ajaxOptions) {
+                if (ajaxOptions.type == "POST")
+                    return;
+                var sort = ajaxOptions.url.match(/\\w+_sort=\\w+/);
+                var page = ajaxOptions.url.match(/\\w+_page=\\d+/);
+
+                $("#"+id+" input, #"+id+" select").each(function (){
+                    $("#'~filterForm.activeFormWidget.id~' [id="+$(this).attr("id")+"]").val($(this).val());
+                });
+                ajaxOptions.url = ajaxOptions.url.substring(0, ajaxOptions.url.indexOf("?")+1) + $("#'~filterForm.activeFormWidget.id~'").serialize();
+                if (sort && sort[0])
+                    ajaxOptions.url+= "&" + sort[0];
+                if (page && page[0])
+                    ajaxOptions.url+= "&" + page[0];
+            }',
+            'afterAjaxUpdate' : "js:function() {
+                var multiplySelects = jQuery('select[multiple]');
+                if ('select2' in multiplySelects)
+                    multiplySelects.select2();
+                jQuery('[rel=\"tooltip\"]').tooltip();
+            }"
+        }) %}
+    {% endif %}
+
+    {{ widget('bootstrap.widgets.TbExtendedGridView', gridOptions) }}
+
+    {% if advancedFilters %}
+            </div>
+            <div class="span3">
+            {% block filtersColumn %}
+                <h4>Фильтры</h4>
+                {{ filterFormHtml|raw }}
+            {% endblock %}
+            </div>
+        </div>
+    {% endif %}
 
 {% endblock %}

@@ -16,6 +16,10 @@ class MAdminController extends CExtController
      */
     public $modelHumanTitle = array('модель', 'модели', 'моделей');
 
+    public $actionsTitles = array('Добавление', 'Редактирование', 'Список');
+
+    public $buttonTitles = array('Добавить', 'Создать', 'Сохранить', 'Не создавать', 'Отменить изменения');
+
     /**
      * @var string|string[] Allowed actions. Array or comma separated string. Possible values: add,view,edit,delete
      */
@@ -25,6 +29,24 @@ class MAdminController extends CExtController
      * @var string One of AdminController->allowedActions
      */
     public $defaultAction = 'list';
+
+    /**
+     * @var string view alias in actionList
+     */
+    public $listView = 'crud/list';
+    /**
+     * @var string view alias in actionAdd/actionEdit
+     */
+    public $editView = 'crud/edit';
+    /**
+     * @var string view alias in actionView
+     */
+    public $viewView = 'crud/view';
+
+    /**
+     * @var array
+     */
+    public $additionalViewVariables = array();
 
     /**
      * @var string
@@ -38,6 +60,8 @@ class MAdminController extends CExtController
         /** @var $app CWebApplication */
         $app = Yii::app();
         $this->assetsUrl = $app->assetManager->publish(__DIR__ . '/assets');
+
+        $app->clientScript->registerCoreScript('jquery');
 
         $this->viewPath = __DIR__ . '/views';
         /** @var $yiiTwigRenderer ETwigViewRenderer */
@@ -109,6 +133,11 @@ class MAdminController extends CExtController
         }
 
         if (isset($_POST[$this->modelName])) {
+            if (isset($_POST['ajax'])) {
+                echo CActiveForm::validate($model);
+                Yii::app()->end();
+            }
+
             foreach ($_POST[$this->modelName] as &$postValue) {
                 if (is_string($postValue)) {
                     $postValue = trim($postValue);
@@ -117,21 +146,17 @@ class MAdminController extends CExtController
                     }
                 }
             }
+            unset($postValue);
 
-            $modifiedRelations = $this->setAttributes($model);
-
-            $this->beforeSave($model);
-            if ($validated = $model->validate()) {
-                foreach ($modifiedRelations as $relationName) {
-                    $validated = $validated && $model->$relationName->validate();
+            $attributesSetted = $this->beforeSetAttributes($model, $_POST[$this->modelName]);
+            $model->setAttributes($_POST[$this->modelName]);
+            foreach ($model->relations() as $relationName => $relationAttributes) {
+                if (isset($_POST[$this->modelName][$relationName])) {
+                    $model->$relationName = $_POST[$this->modelName][$relationName];
                 }
             }
-            if ($validated) {
-                $model->save(false);
-                foreach ($modifiedRelations as $relationName) {
-                    $model->$relationName->save(false);
-                }
-
+            $validated = $model->validate();
+            if ($attributesSetted && $validated && $this->beforeSave($model) && $model->save(false)) {
                 $this->afterSave($model);
                 $this->redirect(array('/' . $this->getUniqueId()));
             }
@@ -139,38 +164,41 @@ class MAdminController extends CExtController
 
         $this->beforeEdit($model);
         $this->render(
-            'crud/' . ($createNew ? 'add' : 'edit'),
-            array(
-                'model' => $model,
-                'editFormElements' => $this->getEditFormElements($model),
+            $this->editView,
+            array_merge_recursive(
+                array(
+                    'model' => $model,
+                    'editFormElements' => $this->getEditFormElements($model),
+                ),
+                $this->additionalViewVariables
             )
         );
     }
 
     /**
      * @param CActiveRecord $model
-     * @return string[] modified relations
      */
-    private function setAttributes($model)
+    protected function setSearchAttributes($model)
     {
-        $modifiedRelations = array();
         $modelName = get_class($model);
-        $this->beforeSetAttributes($model, $_POST[$modelName]);
-        $model->setAttributes($_POST[$modelName]);
-        foreach ($model->relations() as $relationName => $relationAttributes) {
-            // process MANY_MANY relations
-            if (isset($_POST[$modelName][$relationName])) {
-                $model->$relationName = $_POST[$modelName][$relationName];
-            }
-
-            // process HAS_ONE or BELONGS_TO relations
-            if (isset($_POST[$relationAttributes[1]])) {
-                $modifiedRelations[] = $relationName;
-                $modifiedRelations += $this->setAttributes($model->$relationName);
-            }
+        if (isset($_GET[$modelName])) {
+            $model->setAttributes($_GET[$modelName]);
+            unset($_GET[$modelName]);
         }
 
-        return $modifiedRelations;
+        foreach ($model->relations() as $relationName => $relationAttributes) {
+            $relationModelName = $relationAttributes[1];
+            if (isset($_GET[$relationModelName])) {
+                $model->$relationName = new $relationModelName();
+                $model->$relationName->setAttributes($_GET[$relationModelName]);
+                unset($_GET[$relationModelName]);
+            }
+        }
+        foreach ($model->relations() as $relationName => $relationAttributes) {
+            if (!empty($model->$relationName) && $model->$relationName instanceof CActiveRecord) {
+                $this->setSearchAttributes($model->$relationName);
+            }
+        }
     }
 
     public function actionView()
@@ -178,30 +206,37 @@ class MAdminController extends CExtController
         $model = $this->loadModel();
 
         $this->render(
-            'crud/view',
-            array(
-                'model' => $model,
-                'editFormElements' => $this->getEditFormElements($model),
+            $this->viewView,
+            array_merge_recursive(
+                array(
+                    'model' => $model,
+                    'editFormElements' => $this->getEditFormElements($model),
+                ),
+                $this->additionalViewVariables
             )
         );
     }
 
     public function actionList()
     {
+        Yii::import('ext.*');
+
         /** @var $model CActiveRecord */
         $model = new $this->modelName('search');
 
         $this->beforeList($model, $_GET[$this->modelName]);
-        if (isset($_GET[$this->modelName])) {
-            $model->attributes = $_GET[$this->modelName];
-        }
+        $this->setSearchAttributes($model);
 
         $this->render(
-            'crud/list',
-            array(
-                'model' => $model,
-                'columns' => $this->getTableColumns(),
-                'canAdd' => in_array('add', explode(',', $this->allowedActions)),
+            $this->listView,
+            array_merge_recursive(
+                array(
+                    'model' => $model,
+                    'advancedFilters' => $this->getAdvancedFilters(),
+                    'columns' => $this->getTableColumns(),
+                    'canAdd' => in_array('add', explode(',', $this->allowedActions)) && $this->isActionAllowed('add'),
+                ),
+                $this->additionalViewVariables
             )
         );
     }
@@ -280,9 +315,9 @@ class MAdminController extends CExtController
     public function getButtonsColumn()
     {
         $allowedActions = explode(',', $this->allowedActions);
-        $allowDelete = in_array('delete', $allowedActions);
-        $allowView = in_array('view', $allowedActions);
-        $allowEdit = in_array('edit', $allowedActions);
+        $allowDelete = in_array('delete', $allowedActions) && $this->isActionAllowed('delete');
+        $allowView = in_array('view', $allowedActions) && $this->isActionAllowed('view');
+        $allowEdit = in_array('edit', $allowedActions) && $this->isActionAllowed('edit');
 
         $template = '';
         if (!$allowEdit && $allowView) {
@@ -303,6 +338,49 @@ class MAdminController extends CExtController
             'template' => $template,
             'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))'
         );
+    }
+
+    public function isActionAllowed($mAdminActionName)
+    {
+        if (method_exists(Yii::app()->controller, 'accessRules')) {
+            /** @var CHttpRequest $request */
+            $request = Yii::app()->request;
+            $verb = $request->getRequestType();
+            $ip = $request->getUserHostAddress();
+            $action = new CInlineAction(Yii::app()->controller->id, $mAdminActionName);
+
+            foreach (Yii::app()->controller->accessRules() as $rule) {
+                if (is_array($rule) && isset($rule[0])) {
+                    $r = new CAccessRule;
+                    $r->allow = $rule[0] === 'allow';
+                    foreach (array_slice($rule, 1) as $name => $value) {
+                        if ($name === 'expression' || $name === 'roles') {
+                            $r->$name = $value;
+                        } else {
+                            $r->$name = array_map('strtolower', $value);
+                        }
+                    }
+
+                    $allow = $r->isUserAllowed(Yii::app()->user, Yii::app()->controller, $action, $ip, $verb);
+                    if ($allow > 0) {
+                        return true;
+                    } elseif ($allow < 0) {
+                        return false;
+                    }
+                }
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * @return array Format according to CForm $config
+     * @see CForm::__construct
+     */
+    public function getAdvancedFilters()
+    {
+        return array();
     }
 
     /**
@@ -345,8 +423,17 @@ class MAdminController extends CExtController
     /**
      * @param CActiveRecord $model
      * @param array $attributes
+     * @return bool
      */
     public function beforeSetAttributes($model, &$attributes)
+    {
+        return true;
+    }
+
+    /**
+     * @param CActiveRecord $model
+     */
+    public function afterSetAttributes($model)
     {
     }
 
@@ -360,9 +447,11 @@ class MAdminController extends CExtController
 
     /**
      * @param CActiveRecord $model
+     * @return bool
      */
     public function beforeSave($model)
     {
+        return true;
     }
 
     /**

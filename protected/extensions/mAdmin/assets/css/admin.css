@@ -2,6 +2,9 @@ body {
 	padding-top: 60px;
 	padding-bottom: 60px;
 }
+html {
+    -webkit-font-smoothing: subpixel-antialiased;
+}
 
 @media (max-width: 980px) {
 	body {
