@@ -16,3 +16,6 @@
 [submodule "lib/ImageHelper"]
 	path = lib/ImageHelper
 	url = git://github.com/mediasite/ImageHelper.git
+[submodule "lib/ar-relation-behavior"]
+	path = lib/ar-relation-behavior
+	url = git@github.com:yiiext/activerecord-relation-behavior.git
