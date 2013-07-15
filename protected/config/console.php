@@ -1,6 +1,7 @@
 <?php
 
-Yii::setPathOfAlias('lib', realpath(dirname(__FILE__) . '/../../lib'));
+Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
+Yii::setPathOfAlias('vendor', realpath(__DIR__ . '/../../vendor'));
 
 $params = require('params.php');
 return array(
@@ -15,7 +16,7 @@ return array(
         'lib.CurlHelper.*',
         'lib.ImageHelper.*',
     ),
-    // application components
+    'modules' => require(__DIR__.'/modules.php'),
     'components' => array(
         'db' => array(
             'connectionString' => 'mysql:host=' . $params['dbHost'] . ';dbname=' . $params['dbName'],
@@ -34,19 +35,15 @@ return array(
                 array(
                     'class' => 'CFileLogRoute',
                     'levels' => 'error, warning',
+                    'logFile' => 'console.log'
                 ),
             ),
         ),
     ),
-    'params' => array_merge(
-        $params,
-        array(
-            'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
-        )
-    ),
+    'params' => $params,
     'commandMap' => array(
         'migrate' => array(
-            'class' => 'system.cli.commands.MigrateCommand',
+            'class' => 'lib.yii.framework.cli.commands.MigrateCommand',
             'migrationTable' => 'migration',
         ),
     ),

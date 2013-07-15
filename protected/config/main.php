@@ -1,6 +1,7 @@
 <?php
 
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
+Yii::setPathOfAlias('vendor', realpath(__DIR__ . '/../../vendor'));
 
 $params = require('params.php');
 return array(
@@ -17,7 +18,7 @@ return array(
         'lib.ImageHelper.*',
         'ext.mAdmin.*',
     ),
-    'modules' => array('system'),
+    'modules' => require(__DIR__.'/modules.php'),
     'components' => array(
         'user' => array(
             // enable cookie-based authentication
@@ -51,6 +52,12 @@ return array(
             'class' => 'FileSystem',
             'nestedFolders' => 1,
         ),
+        'format' => array(
+            'booleanFormat' => array(
+                'Нет',
+                'Да',
+            ),
+        ),
         'viewRenderer' => array(
             'class' => 'lib.twig-renderer.ETwigViewRenderer',
             'twigPathAlias' => 'lib.twig.lib.Twig',
@@ -64,6 +71,9 @@ return array(
                 ),
                 'const' => 'TwigFunctions::constGet',
                 'static' => 'TwigFunctions::staticCall',
+                'url' => 'TwigFunctions::url',
+                'absUrl' => 'TwigFunctions::absUrl',
+                'plural' => 'TwigFunctions::plural',
             ),
             'filters' => array(
                 'unset' => 'TwigFunctions::_unset',
@@ -95,10 +105,5 @@ return array(
             ),
         ),
     ),
-    'params' => array_merge(
-        $params,
-        array(
-            'md5Salt' => 'ThisIsMymd5Salt(*&^%$#',
-        )
-    ),
+    'params' => $params,
 );
