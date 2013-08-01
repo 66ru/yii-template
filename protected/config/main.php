@@ -81,6 +81,7 @@ return array(
         ),
         'bootstrap' => array(
             'class' => 'lib.booster.src.components.Bootstrap',
+            'tooltipSelector' => '[rel=tooltip]',
             'responsiveCss' => true,
             'jqueryCss' => false,
         ),

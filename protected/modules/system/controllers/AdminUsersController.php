@@ -45,6 +45,7 @@ class AdminUsersController extends MAdminController
     /**
      * @param User $model
      * @param array $attributes
+     * @return bool
      */
     public function beforeSetAttributes($model, &$attributes)
     {
@@ -52,6 +53,6 @@ class AdminUsersController extends MAdminController
             unset($attributes['password']);
         }
 
-        parent::beforeSetAttributes($model, $attributes);
+        return parent::beforeSetAttributes($model, $attributes);
     }
 }
