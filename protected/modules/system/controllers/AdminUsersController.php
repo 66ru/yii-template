@@ -18,7 +18,7 @@ class AdminUsersController extends MAdminController
             'authItems' => array(
                 'type' => 'select2',
                 'htmlOptions' => array(
-                    'data' => EHtml::listData(AuthItem::model()),
+                    'data' => CHtml::listData(AuthItem::model()->findAll(), 'name', 'name'),
                     'multiple' => true,
                     'class' => 'input-xlarge',
                 ),
