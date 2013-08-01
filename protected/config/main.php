@@ -80,7 +80,7 @@ return array(
             ),
         ),
         'bootstrap' => array(
-            'class' => 'lib.booster.components.Bootstrap',
+            'class' => 'lib.booster.src.components.Bootstrap',
             'responsiveCss' => true,
             'jqueryCss' => false,
         ),
