@@ -1,0 +1,13 @@
+{
+    "authors": [
+        {
+            "name": "m8rge",
+            "email": "to.merge@gmail.com",
+            "homepage": "http://aputilov.ru"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "ircmaxell/password-compat": "1.0.3"
+    }
+}

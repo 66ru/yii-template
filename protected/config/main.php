@@ -2,6 +2,7 @@
 
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
 Yii::setPathOfAlias('vendor', realpath(__DIR__ . '/../../vendor'));
+require_once(__DIR__ . '/../../vendor/autoload.php');
 
 $params = require('params.php');
 return array(
