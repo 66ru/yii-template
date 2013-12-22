@@ -25,6 +25,11 @@ return array(
             'allowAutoLogin' => true,
             'loginUrl' => array('site/login'),
         ),
+        'request' => array(
+            'class' => 'application.components.SecuredCsrfHttpRequest',
+            'enableCsrfValidation' => true,
+            'noCsrfValidationRoutes'=>array(),
+        ),
         'urlManager' => array(
             'urlFormat' => 'path',
             'urlSuffix' => '/',
@@ -36,6 +41,9 @@ return array(
                 'admin/<module:\w+>/<controller:\w+>/' => '<module>/admin<controller>',
                 'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
             ),
+        ),
+        'assetManager' => array(
+            'linkAssets' => true,
         ),
         'db' => array(
             'connectionString' => 'mysql:host=' . $params['dbHost'] . ';dbname=' . $params['dbName'],
@@ -81,9 +89,9 @@ return array(
         ),
         'bootstrap' => array(
             'class' => 'vendor.clevertech.yii-booster.src.components.Bootstrap',
-            'tooltipSelector' => '[rel=tooltip]',
             'responsiveCss' => true,
             'jqueryCss' => false,
+            'minify' => !YII_DEBUG,
         ),
         'errorHandler' => array(
             'errorAction' => 'site/error',

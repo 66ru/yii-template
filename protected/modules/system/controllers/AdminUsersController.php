@@ -1,6 +1,6 @@
 <?php
 
-class AdminUsersController extends MAdminController
+class AdminUsersController extends CommonAdminController
 {
     public $modelName = 'User';
     public $modelHumanTitle = array('пользователя', 'пользователя', 'пользователей');
@@ -19,8 +19,10 @@ class AdminUsersController extends MAdminController
                 'type' => 'select2',
                 'htmlOptions' => array(
                     'data' => CHtml::listData(AuthItem::model()->findAll(), 'name', 'name'),
-                    'multiple' => true,
-                    'class' => 'input-xlarge',
+                    'htmlOptions' => array(
+                        'multiple' => true,
+                        'class' => 'input-xlarge',
+                    ),
                 ),
             ),
             'password' => array(
@@ -32,7 +34,7 @@ class AdminUsersController extends MAdminController
         );
     }
 
-    public function getTableColumns()
+    public function getTableColumns($model)
     {
         $attributes = array(
             'email',

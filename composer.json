@@ -12,6 +12,7 @@
         "yiisoft/yii": "1.1.14",
         "twig/twig": ">=1.8,<2.0-dev",
         "m8rge/curl-helper": "1.2",
+        "m8rge/alternative-mail": "dev-master",
         "clevertech/yii-booster": "v2.1.1"
     }
 }

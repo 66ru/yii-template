@@ -20,10 +20,11 @@
 
     {% set gridOptions = {
         'type' : 'condensed striped',
-        'dataProvider' : model.search(),
+        'dataProvider' : dataProvider,
         'filter' : model,
+        'selectableRows' : false,
         'columns' : columns,
-    } %}
+    }|merge(gridOptions|default({})) %}
 
     {% if advancedFilters %}
         {% set filterForm = static('TbFilterForm','createForm', [
@@ -36,7 +37,7 @@
             }
         ]) %}
         {% set filterFormHtml = filterForm.render() %}
-        {% set gridOptions = gridOptions|merge({
+        {% set gridOptions = {
             'ajaxUpdate' : filterForm.activeFormWidget.id,
             'beforeAjaxUpdate' : 'js:function(id, ajaxOptions) {
                 if (ajaxOptions.type == "POST")
@@ -45,21 +46,21 @@
                 var page = ajaxOptions.url.match(/\\w+_page=\\d+/);
 
                 $("#"+id+" input, #"+id+" select").each(function (){
-                    $("#'~filterForm.activeFormWidget.id~' [id="+$(this).attr("id")+"]").val($(this).val());
+                    var $fieldInExtendedFilters = $("#'~filterForm.activeFormWidget.id~' [id="+$(this).attr("id")+"]");
+                    if ($fieldInExtendedFilters.length == 0) {
+                        $fieldInExtendedFilters = $("<input type=\'hidden\' />")
+                            .appendTo("#'~filterForm.activeFormWidget.id~'")
+                            .attr("name", $(this).attr("name"));
+                    }
+                    $fieldInExtendedFilters.val($(this).val());
                 });
                 ajaxOptions.url = ajaxOptions.url.substring(0, ajaxOptions.url.indexOf("?")+1) + $("#'~filterForm.activeFormWidget.id~'").serialize();
                 if (sort && sort[0])
                     ajaxOptions.url+= "&" + sort[0];
                 if (page && page[0])
                     ajaxOptions.url+= "&" + page[0];
-            }',
-            'afterAjaxUpdate' : "js:function() {
-                var multiplySelects = jQuery('select[multiple]');
-                if ('select2' in multiplySelects)
-                    multiplySelects.select2();
-                jQuery('[rel=\"tooltip\"]').tooltip();
-            }"
-        }) %}
+            }'
+        }|merge(gridOptions) %}
     {% endif %}
 
     {{ widget('bootstrap.widgets.TbExtendedGridView', gridOptions) }}

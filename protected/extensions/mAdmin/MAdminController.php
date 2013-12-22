@@ -78,7 +78,7 @@ class MAdminController extends CExtController
         );
     }
 
-    private function getAllowedActions()
+    protected function getAllowedActions()
     {
         if (is_array($this->allowedActions)) {
             return $this->allowedActions;
@@ -177,26 +177,27 @@ class MAdminController extends CExtController
 
     /**
      * @param CActiveRecord $model
+     * @param $attributes
      */
-    protected function setSearchAttributes($model)
+    protected function setSearchAttributes($model, $attributes)
     {
         $modelName = get_class($model);
-        if (isset($_GET[$modelName])) {
-            $model->setAttributes($_GET[$modelName]);
-            unset($_GET[$modelName]);
+        if (isset($attributes[$modelName])) {
+            $model->setAttributes($attributes[$modelName]);
+            unset($attributes[$modelName]);
         }
 
         foreach ($model->relations() as $relationName => $relationAttributes) {
             $relationModelName = $relationAttributes[1];
-            if (isset($_GET[$relationModelName])) {
+            if (isset($attributes[$relationModelName])) {
                 $model->$relationName = new $relationModelName();
-                $model->$relationName->setAttributes($_GET[$relationModelName]);
-                unset($_GET[$relationModelName]);
+                $model->$relationName->setAttributes($attributes[$relationModelName]);
+                unset($attributes[$relationModelName]);
             }
         }
         foreach ($model->relations() as $relationName => $relationAttributes) {
             if (!empty($model->$relationName) && $model->$relationName instanceof CActiveRecord) {
-                $this->setSearchAttributes($model->$relationName);
+                $this->setSearchAttributes($model->$relationName, $attributes);
             }
         }
     }
@@ -225,15 +226,16 @@ class MAdminController extends CExtController
         $model = new $this->modelName('search');
 
         $this->beforeList($model, $_GET[$this->modelName]);
-        $this->setSearchAttributes($model);
+        $this->setSearchAttributes($model, $_GET);
 
         $this->render(
             $this->listView,
-            array_merge_recursive(
+            array_replace_recursive(
                 array(
                     'model' => $model,
+                    'dataProvider' => $model->search(),
                     'advancedFilters' => $this->getAdvancedFilters(),
-                    'columns' => $this->getTableColumns(),
+                    'columns' => $this->getTableColumns($model),
                     'canAdd' => in_array('add', explode(',', $this->allowedActions)) && $this->isActionAllowed('add'),
                 ),
                 $this->additionalViewVariables
@@ -293,11 +295,11 @@ class MAdminController extends CExtController
      * );
      * </code>
      * @see CGridView::$columns
+     * @param CActiveRecord $model
      * @return array
      */
-    public function getTableColumns()
+    public function getTableColumns($model)
     {
-        $model = CActiveRecord::model($this->modelName);
         $attributes = $model->getAttributes();
         unset($attributes[$model->metaData->tableSchema->primaryKey]);
         $columns = array_keys($attributes);
@@ -336,7 +338,8 @@ class MAdminController extends CExtController
         return array(
             'class' => 'bootstrap.widgets.TbButtonColumn',
             'template' => $template,
-            'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))'
+            'updateButtonUrl' => 'Yii::app()->controller->createUrl("edit",array("id"=>$data->primaryKey))',
+            'deleteConfirmation' => "Вы действительно хотите удалить {$this->modelHumanTitle[0]}?",
         );
     }
 
@@ -347,7 +350,7 @@ class MAdminController extends CExtController
             $request = Yii::app()->request;
             $verb = $request->getRequestType();
             $ip = $request->getUserHostAddress();
-            $action = new CInlineAction(Yii::app()->controller->id, $mAdminActionName);
+            $action = new CInlineAction(Yii::app()->controller, $mAdminActionName);
 
             foreach (Yii::app()->controller->accessRules() as $rule) {
                 if (is_array($rule) && isset($rule[0])) {
@@ -428,13 +431,6 @@ class MAdminController extends CExtController
     public function beforeSetAttributes($model, &$attributes)
     {
         return true;
-    }
-
-    /**
-     * @param CActiveRecord $model
-     */
-    public function afterSetAttributes($model)
-    {
     }
 
     /**

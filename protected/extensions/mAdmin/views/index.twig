@@ -6,7 +6,8 @@
 
 {{ void(App.user.setFlash('success', '<strong>Выберите раздел в меню выше</strong>')) }}
 {{ widget('bootstrap.widgets.TbAlert', {
-    closeText : false
+    closeText : false,
+    alerts: null,
 }) }}
 
 {% endblock %}

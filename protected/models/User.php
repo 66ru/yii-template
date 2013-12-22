@@ -69,16 +69,7 @@ class User extends CActiveRecord
 
     public function setPassword($value)
     {
-        $this->hashedPassword = $this->hashPassword($value);
-    }
-
-    /**
-     * @param string $password
-     * @return string
-     */
-    public static function hashPassword($password)
-    {
-        return password_hash($password, PASSWORD_DEFAULT);
+        $this->hashedPassword = password_hash($value, PASSWORD_DEFAULT);
     }
 
     public function search()

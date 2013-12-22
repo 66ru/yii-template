@@ -30,3 +30,13 @@ h1, h2, h3, h4, h5, h6 {
 	background: url('../images/ajaxLoader.gif');
 	display: none;
 }
+
+.pseudo-link {
+    text-decoration: none;
+    border-bottom: dashed 1px rgb(128, 36, 32);
+    cursor: pointer;
+}
+.pseudo-link:hover {
+    text-decoration: none;
+    border-bottom: none;
+}

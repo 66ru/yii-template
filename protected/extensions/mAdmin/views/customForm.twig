@@ -1,0 +1,20 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block content %}
+
+    <h1>{{ title }}</h1>
+
+    {% set form = static('TbForm','createForm', [
+        form.formConfig,
+        null,
+        {
+            type: 'horizontal',
+            clientOptions: {
+                validateOnSubmit: true,
+            },
+        },
+        form,
+    ]) %}
+    {{ form.render()|raw }}
+
+{% endblock %}
