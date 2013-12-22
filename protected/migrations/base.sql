@@ -28,6 +28,6 @@ CREATE TABLE `AuthAssignment` (
 CREATE TABLE `User` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL DEFAULT '',
-  `hashedPassword` varchar(32) NOT NULL DEFAULT '',
+  `hashedPassword` varchar(64) NOT NULL DEFAULT '',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

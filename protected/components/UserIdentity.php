@@ -35,7 +35,7 @@ class UserIdentity extends CBaseUserIdentity
         if ($record === null) {
             $this->errorCode = self::ERROR_USERNAME_INVALID;
         } else {
-            if (password_verify($this->password, $record->hashedPassword)) {
+            if (!password_verify($this->password, $record->hashedPassword)) {
                 $this->errorCode = self::ERROR_PASSWORD_INVALID;
             } else {
                 $this->_id = $record->id;
