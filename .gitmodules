@@ -1,15 +1,6 @@
-[submodule "lib/booster"]
-	path = lib/booster
-	url = git://github.com/clevertech/YiiBooster.git
-[submodule "lib/twig"]
-	path = lib/twig
-	url = git://github.com/fabpot/Twig.git
 [submodule "lib/twig-renderer"]
 	path = lib/twig-renderer
 	url = git://github.com/yiiext/twig-renderer.git
-[submodule "lib/CurlHelper"]
-	path = lib/CurlHelper
-	url = git://github.com/mediasite/CurlHelper.git
 [submodule "lib/ImageHelper"]
 	path = lib/ImageHelper
 	url = git://github.com/mediasite/ImageHelper.git

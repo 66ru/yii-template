@@ -60,7 +60,7 @@ return array(
         ),
         'viewRenderer' => array(
             'class' => 'lib.twig-renderer.ETwigViewRenderer',
-            'twigPathAlias' => 'lib.twig.lib.Twig',
+            'twigPathAlias' => 'vendor.twig.twig.lib.Twig',
             'options' => array(
                 'autoescape' => true,
             ),
@@ -80,7 +80,7 @@ return array(
             ),
         ),
         'bootstrap' => array(
-            'class' => 'lib.booster.src.components.Bootstrap',
+            'class' => 'vendor.clevertech.yii-booster.src.components.Bootstrap',
             'tooltipSelector' => '[rel=tooltip]',
             'responsiveCss' => true,
             'jqueryCss' => false,
