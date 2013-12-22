@@ -1,3 +1,4 @@
 /protected/config/params.php
 .idea/*
 vendor/*
+composer.lock

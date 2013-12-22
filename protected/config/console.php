@@ -2,7 +2,6 @@
 
 Yii::setPathOfAlias('lib', realpath(__DIR__ . '/../../lib'));
 Yii::setPathOfAlias('vendor', realpath(__DIR__ . '/../../vendor'));
-require_once(__DIR__ . '/../../vendor/autoload.php');
 
 $params = require('params.php');
 return array(
@@ -44,7 +43,7 @@ return array(
     'params' => $params,
     'commandMap' => array(
         'migrate' => array(
-            'class' => 'lib.yii.framework.cli.commands.MigrateCommand',
+            'class' => 'vendor.yiisoft.yii.framework.cli.commands.MigrateCommand',
             'migrationTable' => 'migration',
         ),
     ),

@@ -1,6 +1,3 @@
-[submodule "lib/yii"]
-	path = lib/yii
-	url = git://github.com/yiisoft/yii.git
 [submodule "lib/booster"]
 	path = lib/booster
 	url = git://github.com/clevertech/YiiBooster.git
