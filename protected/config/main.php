@@ -67,7 +67,7 @@ return array(
             ),
         ),
         'viewRenderer' => array(
-            'class' => 'lib.twig-renderer.ETwigViewRenderer',
+            'class' => 'vendor.yiiext.twig-renderer.ETwigViewRenderer',
             'twigPathAlias' => 'vendor.twig.twig.lib.Twig',
             'options' => array(
                 'autoescape' => true,

@@ -23,7 +23,7 @@ class User extends CActiveRecord
     {
         return array(
             'manyToMany' => array(
-                'class' => 'lib.ar-relation-behavior.EActiveRecordRelationBehavior',
+                'class' => 'vendor.yiiext.activerecord-relation-behavior.EActiveRecordRelationBehavior',
             ),
         );
     }

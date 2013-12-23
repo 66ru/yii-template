@@ -14,7 +14,10 @@
 </h1>
 
 {% if message %}
-<p>{{message}}</p>
+    {{ void(App.user.setFlash('error', message)) }}
+    {{ widget('bootstrap.widgets.TbAlert', {
+        closeText : false,
+        alerts: null,
+    }) }}
 {% endif %}
 {% endblock %}
-
