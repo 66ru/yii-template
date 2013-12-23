@@ -15,6 +15,7 @@
         "m8rge/alternative-mail": "dev-master",
         "clevertech/yii-booster": "v2.1.1",
         "yiiext/activerecord-relation-behavior": "1.1",
-        "yiiext/twig-renderer": "dev-master"
+        "yiiext/twig-renderer": "dev-master",
+        "m8rge/yii-sentry-log": "dev-master"
     }
 }
