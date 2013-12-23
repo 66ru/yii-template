@@ -9,8 +9,6 @@ class CommonAdminController extends MAdminController
         /** @var $app CWebApplication */
         $app = Yii::app();
 
-//        $app->clientScript->registerScript('tooltipEverywhere', 'jQuery(\'[rel="tooltip"]\').tooltip();');
-
         $fancyboxUrl = $app->assetManager->publish(Yii::getPathOfAlias('lib') . '/fancybox');
 
         $app->clientScript->registerScriptFile($fancyboxUrl . '/jquery.fancybox-1.3.4.pack.js');
