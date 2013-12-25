@@ -44,6 +44,11 @@ class MAdminController extends CExtController
     public $viewView = 'crud/view';
 
     /**
+     * @var string
+     */
+    public $adminLayout = 'layouts/admin.twig';
+
+    /**
      * @var array
      */
     public $additionalViewVariables = array();
@@ -113,7 +118,12 @@ class MAdminController extends CExtController
 
     public function actionIndex()
     {
-        $this->render('index');
+        $this->render(
+            'index',
+            array(
+                'adminLayout' => $this->adminLayout
+            )
+        );
     }
 
     public function actionAdd()
@@ -167,6 +177,7 @@ class MAdminController extends CExtController
             $this->editView,
             array_merge_recursive(
                 array(
+                    'adminLayout' => $this->adminLayout,
                     'model' => $model,
                     'editFormElements' => $this->getEditFormElements($model),
                 ),
@@ -210,6 +221,7 @@ class MAdminController extends CExtController
             $this->viewView,
             array_merge_recursive(
                 array(
+                    'adminLayout' => $this->adminLayout,
                     'model' => $model,
                     'editFormElements' => $this->getEditFormElements($model),
                 ),
@@ -232,6 +244,7 @@ class MAdminController extends CExtController
             $this->listView,
             array_replace_recursive(
                 array(
+                    'adminLayout' => $this->adminLayout,
                     'model' => $model,
                     'dataProvider' => $model->search(),
                     'advancedFilters' => $this->getAdvancedFilters(),

@@ -41,8 +41,6 @@ return array(
         'application.models.forms.*',
         'application.components.*',
         'application.helpers.*',
-        'lib.CurlHelper.*',
-        'lib.ImageHelper.*',
         'ext.mAdmin.*',
     ),
     'modules' => require(__DIR__.'/modules.php'),

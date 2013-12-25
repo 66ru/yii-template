@@ -1,6 +1,6 @@
 <?php
 
-class AdminController extends MAdminController
+class AdminController extends CommonAdminController
 {
     public $defaultAction = 'index';
 }

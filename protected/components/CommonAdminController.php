@@ -2,6 +2,8 @@
 
 class CommonAdminController extends MAdminController
 {
+    public $adminLayout = 'views/layouts/admin.twig';
+
     public function init()
     {
         parent::init();

@@ -1,0 +1,20 @@
+{% extends 'layouts/admin.twig' %}
+
+{% block mainMenu %}
+{{ widget('bootstrap.widgets.TbNavbar',{
+	'collapse' : true,
+	'items':[
+	{
+		'class' : 'bootstrap.widgets.TbMenu',
+		'items' : [
+			{'label':'Пользователи', 'url':['/system/adminUsers'], 'active' : this.uniqueId == 'system/adminUsers' },
+		]
+	},{
+		'class' : 'bootstrap.widgets.TbMenu',
+		'htmlOptions' : {'class':'pull-right'},
+		'items' : [
+			{'label':'Выйти ('~App.user.name~')', 'url':['/site/logout'], 'visible':not App.user.isGuest}
+		]
+	}]
+}) }}
+{% endblock %}
