@@ -3,6 +3,8 @@
 /*
  * DateTimeI18NBehavior
  * Automatically converts date and datetime fields to I18N format
+ *
+ * add timestamp field support by m8rge
  * 
  * Author: Ricardo Grana <rickgrana@yahoo.com.br>, <ricardo.grana@pmm.am.gov.br>
  * Version: 1.1
@@ -21,7 +23,9 @@ class DateTimeI18NBehavior extends CActiveRecordBehavior
     {
         //search for date/datetime columns. Convert it to pure PHP date format
         foreach ($event->sender->tableSchema->columns as $columnName => $column) {
-            if (($column->dbType != 'date') and ($column->dbType != 'datetime')) {
+            if ($column->dbType != 'date' && $column->dbType != 'datetime'
+                && $column->dbType != 'timestamp'
+            ) {
                 continue;
             }
 
@@ -58,7 +62,9 @@ class DateTimeI18NBehavior extends CActiveRecordBehavior
     public function afterFind($event)
     {
         foreach ($event->sender->tableSchema->columns as $columnName => $column) {
-            if (($column->dbType != 'date') and ($column->dbType != 'datetime')) {
+            if ($column->dbType != 'date' && $column->dbType != 'datetime'
+                && $column->dbType != 'timestamp'
+            ) {
                 continue;
             }
 

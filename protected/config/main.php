@@ -62,11 +62,11 @@ return array(
                 'showScriptName' => false,
                 'rules' => array(
                     '/' => 'site/index',
-                    '/<action:\w+>' => 'site/<action>',
                     'admin/' => 'system',
                     'admin/<module:\w+>/' => '<module>',
                     'admin/<module:\w+>/<controller:\w+>/' => '<module>/admin<controller>',
                     'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
+                    '/<action:\w+>' => 'site/<action>',
                 ),
             ),
             'assetManager' => array(
