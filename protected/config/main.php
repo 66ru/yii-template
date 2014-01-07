@@ -62,6 +62,7 @@ return array(
                 'showScriptName' => false,
                 'rules' => array(
                     '/' => 'site/index',
+                    '/<action:\w+>' => 'site/<action>',
                     'admin/' => 'system',
                     'admin/<module:\w+>/' => '<module>',
                     'admin/<module:\w+>/<controller:\w+>/' => '<module>/admin<controller>',
@@ -108,6 +109,7 @@ return array(
                     'url' => 'TwigFunctions::url',
                     'absUrl' => 'TwigFunctions::absUrl',
                     'plural' => 'TwigFunctions::plural',
+                    'new' => 'TwigFunctions::newObject',
                 ),
                 'filters' => array(
                     'unset' => 'TwigFunctions::_unset',

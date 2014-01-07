@@ -67,6 +67,12 @@ class TwigFunctions
         return call_user_func_array($class . '::' . $method, $params);
     }
 
+    public static function newObject($class, $params = array())
+    {
+        $reflectionClass = new ReflectionClass($class);
+        return $reflectionClass->newInstanceArgs($params);
+    }
+
     /**
      * @param int $n
      * @param string $one
