@@ -3,20 +3,25 @@
 class FindOrCreateBehavior extends CActiveRecordBehavior
 {
     /**
-     * @param mixed $value used for search
-     * @param bool|string $fieldName false means primary pey field
+     * @param string $value used for search
+     * @param bool|string $fieldName false means primary key field
      * @return CActiveRecord
      */
     public function findOrCreate($value, $fieldName = false)
     {
-        if (!$fieldName)
-            $ar = $this->owner->findByPk($value);
-        else
-            $ar = $this->owner->findByAttributes(array($fieldName => $value));
+        if (!$fieldName) {
+            $object = $this->owner->findByPk($value);
+        } else {
+            $object = $this->owner->findByAttributes(array($fieldName => $value));
+        }
         $className = get_class($this->owner);
-        if (!$ar)
-            $ar = new $className;
+        if (!$object) {
+            $object = new $className;
+            if ($fieldName !== false) {
+                $object->$fieldName = $value;
+            }
+        }
 
-        return $ar;
+        return $object;
     }
 }
