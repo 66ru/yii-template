@@ -48,8 +48,8 @@ class DependedAjaxInputWidget extends CInputWidget
             echo '
 <script type="text/javascript">
 	$(document).ready(function() {
-		$("#' . EHtml::resolveId($this->model, $this->masterAttributeName) . '").bind("change", function() {
-			var $dependObject = $("#' . EHtml::resolveId($this->model, $this->dependedAttributeName) . '");
+		$("#' . CHtml::activeId($this->model, $this->masterAttributeName) . '").bind("change", function() {
+			var $dependObject = $("#' . CHtml::activeId($this->model, $this->dependedAttributeName) . '");
 			$dependObject.html("");
 			if (!$(this).val()) {
 				$dependObject.attr("disabled", "disabled");

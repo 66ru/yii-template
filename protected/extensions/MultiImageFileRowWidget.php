@@ -125,7 +125,7 @@ class MultiImageFileRowWidget extends CInputWidget
                     $image,
                     array('target' => '_blank', 'style' => 'margin-right:1em')
                 );
-                echo '<label class="checkbox" style="display:inline-block" for="' . EHtml::resolveId(
+                echo '<label class="checkbox" style="display:inline-block" for="' . CHtml::activeId(
                     $model,
                     $this->removeImageFieldName . "[$id]"
                 ) . '">';

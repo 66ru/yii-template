@@ -2,23 +2,10 @@
 
 /**
  * Class EHtml
- * version 1.4
+ * version 1.5
  */
 class EHtml
 {
-    /**
-     * Generates a valid HTML ID based for a model attribute.
-     * Note, the attribute name may be modified after calling this method if the name
-     * contains square brackets (mainly used in tabular input) before the real attribute name.
-     * @param CModel $model the data model
-     * @param string $attribute the attribute
-     * @return string the ID generated based on name.
-     */
-    public static function resolveId($model, $attribute)
-    {
-        return CHtml::getIdByName(CHtml::resolveName($model, $attribute));
-    }
-
     /**
      * Works like CHtml::listData. Supports magic fields.
      * @param CActiveRecord $model

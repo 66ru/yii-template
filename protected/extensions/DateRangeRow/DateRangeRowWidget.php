@@ -37,8 +37,8 @@ class DateRangeRowWidget extends CWidget
 
     public function run()
     {
-        $idFrom = EHtml::resolveId($this->model, $this->attributeName);
-        $idTo = EHtml::resolveId($this->model, $this->attributeDateTo);
+        $idFrom = CHtml::activeId($this->model, $this->attributeName);
+        $idTo = CHtml::activeId($this->model, $this->attributeDateTo);
         Yii::app()->clientScript->registerScript('datePickerInitialize', '
 			$.datepicker.setDefaults( $.datepicker.regional["ru"] );
 			$("#' . $idFrom . '").datepicker({

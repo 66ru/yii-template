@@ -37,7 +37,6 @@ return array(
         'application.models.forms.*',
         'application.components.*',
         'application.helpers.*',
-        'lib.CurlHelper.*',
         'lib.ImageHelper.*',
     ),
     'modules' => require(__DIR__.'/modules.php'),
