@@ -17,7 +17,6 @@
 	'htmlOptions' : {'enctype' : 'multipart/form-data'},
 }) %}
 
-{{ C.Html.hiddenField(App.request.csrfTokenName,App.request.getCsrfToken(), {'id': false})|raw }}
 {% import 'crud/form.twig' as formHelper %}
 {{ formHelper.editForm(model, form, editFormElements) }}
 

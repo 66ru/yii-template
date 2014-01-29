@@ -2,6 +2,13 @@
 
 class SiteController extends Controller
 {
+    public function filters()
+    {
+        return array(
+            'postOnly +logout',
+        );
+    }
+
     /**
      * This is the default 'index' action that is invoked
      * when an action is not explicitly requested by users.
@@ -32,6 +39,9 @@ class SiteController extends Controller
      */
     public function actionLogin()
     {
+        if (!Yii::app()->user->isGuest) {
+            $this->redirect(Yii::app()->homeUrl);
+        }
         $model = new LoginForm;
 
         // if it is ajax validation request
@@ -58,6 +68,5 @@ class SiteController extends Controller
     public function actionLogout()
     {
         Yii::app()->user->logout();
-        $this->redirect(Yii::app()->homeUrl);
     }
 }
