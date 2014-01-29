@@ -193,22 +193,26 @@ class MAdminController extends CExtController
     protected function setSearchAttributes($model, $attributes)
     {
         $modelName = get_class($model);
-        if (isset($attributes[$modelName])) {
+        if (array_key_exists($modelName, $attributes)) {
             $model->setAttributes($attributes[$modelName]);
             unset($attributes[$modelName]);
         }
 
-        foreach ($model->relations() as $relationName => $relationAttributes) {
-            $relationModelName = $relationAttributes[1];
-            if (isset($attributes[$relationModelName])) {
-                $model->$relationName = new $relationModelName();
-                $model->$relationName->setAttributes($attributes[$relationModelName]);
-                unset($attributes[$relationModelName]);
+        if (!empty($attributes)) {
+            foreach ($model->relations() as $relationName => $relationAttributes) {
+                $relationModelName = $relationAttributes[1];
+                if (array_key_exists($relationModelName, $attributes)) {
+                    $model->$relationName = new $relationModelName();
+                    $model->$relationName->setAttributes($attributes[$relationModelName]);
+                    unset($attributes[$relationModelName]);
+                }
             }
         }
-        foreach ($model->relations() as $relationName => $relationAttributes) {
-            if (!empty($model->$relationName) && $model->$relationName instanceof CActiveRecord) {
-                $this->setSearchAttributes($model->$relationName, $attributes);
+        if (!empty($attributes)) {
+            foreach ($model->relations() as $relationName => $relationAttributes) {
+                if (!empty($model->$relationName) && $model->$relationName instanceof CActiveRecord) {
+                    $this->setSearchAttributes($model->$relationName, $attributes);
+                }
             }
         }
     }
@@ -238,6 +242,9 @@ class MAdminController extends CExtController
         $model = new $this->modelName('search');
 
         $this->beforeList($model, $_GET[$this->modelName]);
+        if (is_null($_GET[$this->modelName])) {
+            unset($_GET[$this->modelName]);
+        }
         $this->setSearchAttributes($model, $_GET);
 
         $this->render(
