@@ -35,12 +35,14 @@ return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => $params['appName'],
     'language' => 'ru',
+    'timeZone' => 'Asia/Yekaterinburg',
     'preload' => array('log', 'RSentryException'),
     'import' => array(
         'application.models.*',
         'application.models.forms.*',
         'application.components.*',
         'application.helpers.*',
+        'lib.ImageHelper.*',
         'ext.mAdmin.*',
     ),
     'modules' => require(__DIR__.'/modules.php'),
@@ -60,13 +62,14 @@ return array(
                 'urlFormat' => 'path',
                 'urlSuffix' => '/',
                 'showScriptName' => false,
+                'useStrictParsing' => true,
                 'rules' => array(
-                    '/' => 'site/index',
+                    '/' => 'site/index', // or system/admin
                     'admin/' => 'system',
-                    'admin/<module:\w+>/' => '<module>',
                     'admin/<module:\w+>/<controller:\w+>/' => '<module>/admin<controller>',
                     'admin/<module:\w+>/<controller:\w+>/<action:\w+>/' => '<module>/admin<controller>/<action>',
-                    '/<action:\w+>' => 'site/<action>',
+                    '<action:\w+>' => 'site/<action>',
+                    'admin/<action:\w+>/' => 'system/admin/<action>',
                 ),
             ),
             'assetManager' => array(

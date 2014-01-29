@@ -31,6 +31,8 @@ if ($params['useSentry']) {
 return array(
     'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
     'name' => $params['appName'],
+    'language' => 'ru',
+    'timeZone' => 'Asia/Yekaterinburg',
     'preload' => array('log', 'RSentryException'),
     'import' => array(
         'application.models.*',
