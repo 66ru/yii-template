@@ -27,8 +27,8 @@ class AdminUsersController extends CommonAdminController
             ),
             'password' => array(
                 'type' => 'passwordField',
-                'htmlOptions' => array(
-                    'hint' => $model->isNewRecord ? '' : 'Если ничего не вводить, то пароль не будет изменен.',
+                'rowOptions' => array(
+                    'hint' => $model->isNewRecord ? '' : 'Если ничего не вводить, то пароль не будет изменен',
                 ),
             ),
         );
