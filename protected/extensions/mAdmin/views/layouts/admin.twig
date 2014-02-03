@@ -33,9 +33,9 @@
     });
     $('#logout-link').on('click', function() {
         $.post($(this).attr('href'), {
-            {{App.request.csrfTokenName}}: '{{App.request.csrfToken}}'
+            "~App.request.csrfTokenName~": '"~App.request.csrfToken~"'
         }, function() {
-            window.location = '{{ App.homeUrl }}';
+            window.location = '"~App.homeUrl~"';
         });
 
         return false;
