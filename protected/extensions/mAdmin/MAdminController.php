@@ -349,7 +349,7 @@ class MAdminController extends CExtController
         }
         if ($allowDelete) {
             if (!empty($template)) {
-                $template .= '&nbsp;&nbsp;&nbsp;{delete}';
+                $template .= '{delete}';
             } else {
                 $template = '{delete}';
             }
