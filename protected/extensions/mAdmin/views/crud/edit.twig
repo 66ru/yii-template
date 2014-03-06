@@ -18,7 +18,11 @@
 }) %}
 
 {% import 'crud/form.twig' as formHelper %}
-{{ formHelper.editForm(model, form, editFormElements) }}
+{% set formHtml = formHelper.editForm(model, form, editFormElements) %}
+
+{{ form.errorSummary(model, null, null, {id: form.id~'_es_2'})|raw }}
+{{ formHtml|raw }}
+{{ form.errorSummary(model)|raw }}
 
 <div class="form-actions">
 	{{ widget('bootstrap.widgets.TbButton', {
