@@ -9,7 +9,7 @@ class SecuredCsrfHttpRequest extends CHttpRequest
         //attach event handlers for CSRFin the parent
         parent::normalizeRequest();
         //remove the event handler CSRF if this is a route we want skipped
-        if ($this->enableCsrfValidation) {
+        if ($this->enableCsrfValidation && !Yii::app()->errorHandler->error) {
             try {
                 $url = Yii::app()->getUrlManager()->parseUrl($this);
                 foreach ($this->noCsrfValidationRoutes as $route) {
