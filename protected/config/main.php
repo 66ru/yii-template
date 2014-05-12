@@ -26,7 +26,7 @@ if ($params['useSentry']) {
     );
     $components['RSentryException'] = array(
         'dsn' => $params['sentryDSN'],
-        'class' => 'vendor.m8rge.yii-sentry-log.RSentryComponent',
+        'class' => 'ESentryComponent',
     );
 }
 return array(
