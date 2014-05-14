@@ -13,7 +13,7 @@
 		'class' : 'bootstrap.widgets.TbMenu',
 		'htmlOptions' : {'class':'pull-right'},
 		'items' : [
-			{'label':'Выйти ('~App.user.name~')', 'url':['/site/logout'], 'visible':not App.user.isGuest}
+			{'label':'Выйти ('~App.user.name~')', 'url':['/site/logout'], 'linkOptions': {id: 'logout-link'}, 'visible':not App.user.isGuest}
 		]
 	}]
 }) }}
