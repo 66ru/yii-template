@@ -45,9 +45,13 @@ abstract class OneInstanceCommand extends CConsoleCommand
         if (file_exists($command->lockFileName)) {
             $event->stopCommand = true;
             if (filemtime($command->lockFileName) + $this->longRunningTimeout < time()) {
-                throw new CException(get_class($this) .
+                throw new CException(
+                    get_class($this) .
                     '(' . $command->lockFileName . ') sleeped since ' .
-                    date('r', filemtime($command->lockFileName)));
+                    date('r', filemtime($command->lockFileName))
+                );
+            } elseif (YII_DEBUG) {
+                echo 'Command locked by ' . $command->lockFileName . "\n";
             }
         } else {
             if (!touch($command->lockFileName)) {
