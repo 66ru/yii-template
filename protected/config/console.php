@@ -49,6 +49,9 @@ return array(
                 'password' => $params['dbPassword'],
                 'charset' => 'utf8',
             ),
+            'errorHandler' => array(
+                'class' => 'ConsoleErrorHandler',
+            ),
             'authManager' => array(
                 'class' => 'CDbAuthManager',
                 'connectionID' => 'db',
